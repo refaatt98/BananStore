@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { Layout } from "./components/Layout";
 import Home from "./pages/Home";
 
@@ -17,7 +17,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 // لوحة الإدارة — بتتحمّل بس لما تفتحيها
 const AdminShell = lazy(() => import("./components/admin/AdminShell").then((m) => ({ default: m.AdminShell })));
-const AdminLogin = lazy(() => import("./pages/admin/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const AdminOrders = lazy(() => import("./pages/admin/Orders"));
 const AdminOrderDetail = lazy(() => import("./pages/admin/OrderDetail"));
@@ -39,7 +38,7 @@ const adminFallback = <div className="grid min-h-dvh place-items-center bg-cream
 export default function App() {
   return (
     <Routes>
-      <Route path="admin/login" element={<Suspense fallback={adminFallback}><AdminLogin /></Suspense>} />
+      <Route path="admin/login" element={<Navigate to="/admin" replace />} />
       <Route path="admin" element={<Suspense fallback={adminFallback}><AdminShell /></Suspense>}>
         <Route index element={<AdminDashboard />} />
         <Route path="orders" element={<AdminOrders />} />

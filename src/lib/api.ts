@@ -403,31 +403,6 @@ export function customerWhatsapp(phone: string): string {
 
 // ═══ لوحة الإدارة ════════════════════════════════════════
 
-export async function adminExists(): Promise<boolean> {
-  const { data } = await supabase.rpc("admin_exists");
-  return !!data;
-}
-
-export async function isAdmin(): Promise<boolean> {
-  const { data } = await supabase.rpc("is_admin");
-  return !!data;
-}
-
-export async function adminSignIn(email: string, password: string) {
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw new Error(/Invalid login/i.test(error.message) ? "الإيميل أو كلمة السر غلط" : /not confirmed/i.test(error.message) ? "لازم تأكدي الإيميل أول (شوفي بريدك)" : error.message);
-}
-
-export async function adminSignUp(email: string, password: string): Promise<{ needsConfirm: boolean }> {
-  const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/admin` } });
-  if (error) throw new Error(error.message);
-  return { needsConfirm: !data.session };
-}
-
-export async function adminSignOut() {
-  await supabase.auth.signOut();
-}
-
 // ─── الرفع (Cloudflare R2 أو Supabase Storage) ─────────────
 
 async function compressImage(file: File): Promise<File> {
@@ -448,13 +423,21 @@ async function compressImage(file: File): Promise<File> {
   }
 }
 
+function storageKey(file: File, folder: string): string {
+  const safeFolder = folder.replace(/[^a-z0-9-]/gi, "").slice(0, 30) || "misc";
+  const ext = (file.name.split(".").pop() ?? "bin").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 5) || "bin";
+  const d = new Date();
+  return `${safeFolder}/${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, "0")}/${crypto.randomUUID()}.${ext}`;
+}
+
 export async function uploadMedia(original: File, folder: string, onProgress?: (p: number) => void): Promise<string> {
   const file = await compressImage(original);
+  type UploadInfo = { provider: "r2" | "supabase"; key: string; uploadUrl?: string; publicUrl?: string };
   const { data, error } = await supabase.functions.invoke("media-upload", {
     body: { filename: file.name, contentType: file.type, folder },
   });
-  if (error) throw new Error("ما قدرنا نجهّز الرفع: " + error.message);
-  const info = data as { provider: "r2" | "supabase"; key: string; uploadUrl?: string; publicUrl?: string };
+  // بدون تسجيل دخول دالة الرفع ممكن ترفض → منرفع على Supabase Storage مباشرة
+  const info: UploadInfo = !error && data ? (data as UploadInfo) : { provider: "supabase", key: storageKey(file, folder) };
 
   if (info.provider === "r2" && info.uploadUrl && info.publicUrl) {
     await new Promise<void>((resolve, reject) => {
