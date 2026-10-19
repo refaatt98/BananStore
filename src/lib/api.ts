@@ -5,8 +5,6 @@ import { processSteps, siteDefaults, story } from "../data/site";
 import type {
   Category,
   ContactInput,
-  CustomRequest,
-  CustomRequestInput,
   DeliveryZone,
   Faq,
   GalleryItem,
@@ -372,11 +370,6 @@ export async function getOrder(id: string): Promise<Order | null> {
   return data ? mapOrder(data as Row) : null;
 }
 
-export async function submitCustomRequest(input: CustomRequestInput): Promise<{ ok: true; ref: string }> {
-  const ref = check(await supabase.rpc("submit_custom_request", { payload: input })) as string;
-  return { ok: true, ref };
-}
-
 export async function submitContact(input: ContactInput): Promise<{ ok: true }> {
   check(await supabase.from("messages").insert({ name: input.name.trim(), phone: input.phone.trim() || null, message: input.message.trim() }));
   return { ok: true };
@@ -635,21 +628,24 @@ export async function adminDeleteOrder(id: string) {
   check(await supabase.from("orders").delete().eq("id", id));
 }
 
+export async function adminDeleteOrders(ids: string[]) {
+  if (!ids.length) return;
+  check(await supabase.from("orders").delete().in("id", ids));
+}
+
 export async function adminStats() {
   const since = new Date();
   since.setDate(since.getDate() - 30);
   const orders = check(await supabase.from("orders").select("id,status,total,created_at").gte("created_at", since.toISOString()));
-  const [{ count: pendingReviews }, { count: unreadMessages }, { count: newCustom }, { count: lowStock }] = await Promise.all([
+  const [{ count: pendingReviews }, { count: unreadMessages }, { count: lowStock }] = await Promise.all([
     supabase.from("reviews").select("id", { count: "exact", head: true }).eq("approved", false),
     supabase.from("messages").select("id", { count: "exact", head: true }).eq("read", false),
-    supabase.from("custom_requests").select("id", { count: "exact", head: true }).eq("status", "new"),
     supabase.from("products").select("id", { count: "exact", head: true }).eq("active", true).lte("stock", 2),
   ]);
   return {
     orders: orders.map((o: Row) => ({ id: o.id, status: o.status as OrderStatus, total: num(o.total), createdAt: o.created_at as string })),
     pendingReviews: pendingReviews ?? 0,
     unreadMessages: unreadMessages ?? 0,
-    newCustom: newCustom ?? 0,
     lowStock: lowStock ?? 0,
   };
 }
@@ -801,31 +797,7 @@ export async function adminDeleteFaq(id: string) {
   check(await supabase.from("faqs").delete().eq("id", id));
 }
 
-// ─── الطلبات الخاصة والرسائل ──────────────────────────────
-
-export async function adminListCustomRequests(): Promise<CustomRequest[]> {
-  return check(await supabase.from("custom_requests").select("*").order("created_at", { ascending: false })).map((r: Row) => ({
-    id: r.id,
-    ref: r.ref,
-    pieceType: r.piece_type,
-    colors: r.colors ?? [],
-    budget: r.budget ?? "",
-    deadline: r.deadline ?? undefined,
-    details: r.details,
-    name: r.name,
-    phone: r.phone,
-    status: r.status,
-    createdAt: r.created_at,
-  }));
-}
-
-export async function adminUpdateCustomRequest(id: string, status: CustomRequest["status"]) {
-  check(await supabase.from("custom_requests").update({ status }).eq("id", id));
-}
-
-export async function adminDeleteCustomRequest(id: string) {
-  check(await supabase.from("custom_requests").delete().eq("id", id));
-}
+// ─── الرسائل ──────────────────────────────
 
 export async function adminListMessages(): Promise<Message[]> {
   return check(await supabase.from("messages").select("*").order("created_at", { ascending: false })).map((r: Row) => ({

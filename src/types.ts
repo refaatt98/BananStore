@@ -272,23 +272,6 @@ export interface PromoResult {
   code: string | null;
 }
 
-export interface CustomRequestInput {
-  pieceType: string;
-  colors: string[];
-  budget: string;
-  deadline?: string;
-  details: string;
-  name: string;
-  phone: string;
-}
-
-export interface CustomRequest extends CustomRequestInput {
-  id: string;
-  ref: string;
-  status: "new" | "in_progress" | "done" | "cancelled";
-  createdAt: string;
-}
-
 export interface ContactInput {
   name: string;
   phone: string;

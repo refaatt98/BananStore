@@ -11,7 +11,6 @@ import { Logo } from "./Logo";
 export const navLinks = [
   { to: "/", label: "الرئيسية" },
   { to: "/shop", label: "المتجر" },
-  { to: "/custom", label: "اطلبي قطعتك" },
   { to: "/story", label: "قصتنا" },
   { to: "/contact", label: "تواصلي معنا" },
 ];

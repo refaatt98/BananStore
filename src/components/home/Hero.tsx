@@ -261,7 +261,6 @@ export function Hero() {
               تسوّقي القطع
               <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
             </Link>
-            <Link to="/custom" className="btn btn-ghost">اطلبي قطعة باسمك</Link>
           </motion.div>
 
           <motion.ul

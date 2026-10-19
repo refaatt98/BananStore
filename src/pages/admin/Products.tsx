@@ -2,8 +2,8 @@ import { Plus, Search, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { ProductMedia } from "../../components/ProductMedia";
-import { AdminPageHeader, Card, Toggle, useToast } from "../../components/admin/ui";
-import { adminListCategories, adminListProducts, adminSaveProduct } from "../../lib/api";
+import { AdminPageHeader, Card, DeleteButton, Toggle, useToast } from "../../components/admin/ui";
+import { adminDeleteProduct, adminListCategories, adminListProducts, adminSaveProduct } from "../../lib/api";
 import { formatPrice } from "../../lib/format";
 import { useAsync, useTitle } from "../../lib/hooks";
 import type { Product } from "../../types";
@@ -35,6 +35,16 @@ export default function AdminProducts() {
       toast(e instanceof Error ? e.message : "خطأ", "err");
       setList(null);
       setTick((t) => t + 1);
+    }
+  };
+
+  const remove = async (p: Product) => {
+    try {
+      await adminDeleteProduct(p.id);
+      setList((products ?? []).filter((x) => x.id !== p.id));
+      toast("انحذف المنتج");
+    } catch (e) {
+      toast(e instanceof Error ? e.message : "خطأ", "err");
     }
   };
 
@@ -91,7 +101,10 @@ export default function AdminProducts() {
             </div>
             <div className="mt-3 flex items-center justify-between border-t border-dashed border-line pt-3">
               <Toggle checked={p.active} onChange={(v) => patch(p, { active: v })} label={p.active ? "ظاهر بالمتجر" : "مخفي"} />
-              <Link to={`/admin/products/${p.id}`} className="text-sm font-semibold text-rose">تعديل</Link>
+              <div className="flex items-center gap-1">
+                <DeleteButton small onConfirm={() => remove(p)} />
+                <Link to={`/admin/products/${p.id}`} className="px-2 text-sm font-semibold text-rose">تعديل</Link>
+              </div>
             </div>
           </Card>
         ))}

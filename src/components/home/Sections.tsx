@@ -175,8 +175,8 @@ export function ValuesStrip() {
   );
 }
 
-// ─── دعوة لطلب قطعة خاصة ──────────────────────────────────
-export function CustomCta() {
+// ─── دعوة لتصفّح المنتجات ─────────────────────────────────
+export function ShopCta() {
   return (
     <section className="container-b py-20 md:py-28">
       <div className="relative overflow-hidden rounded-[2.5rem] bg-cocoa px-6 py-14 text-cream md:px-16 md:py-20">
@@ -196,13 +196,13 @@ export function CustomCta() {
         <div className="pointer-events-none absolute inset-3 rounded-[2rem] border border-dashed border-cream/20" aria-hidden />
         <div className="relative grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
-            <span className="eyebrow !text-rose-soft"><Diamond className="size-2" /> قطعة من خيالك</span>
-            <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">عندك فكرة؟ احكيلنا وبنحوّلها لقطعة بين إيديكِ</h2>
+            <span className="eyebrow !text-rose-soft"><Diamond className="size-2" /> من إيدينا لإلك</span>
+            <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">قطع معمولة باليد، بتستنّاكِ تختاريها</h2>
             <p className="mt-4 max-w-lg leading-8 text-cream/80">
-              اسم مطرّز لمولود جديد، شنطة بلون فستانك، أو هدية لحدا غالي — بنصممها معك خطوة خطوة.
+              شنط، تطريز، إكسسوارات وهدايا — كل قطعة معمولة بحب وصبر، وجاهزة توصل لعندك.
             </p>
-            <Link to="/custom" className="btn mt-8 bg-cream text-cocoa hover:bg-rose hover:text-white">
-              ابدئي طلبك الخاص <ArrowLeft className="size-4" />
+            <Link to="/shop" className="btn mt-8 bg-cream text-cocoa hover:bg-rose hover:text-white">
+              تصفّحي منتجاتنا <ArrowLeft className="size-4" />
             </Link>
           </Reveal>
           <div className="relative mx-auto h-56 w-56 md:h-72 md:w-72">
@@ -212,7 +212,7 @@ export function CustomCta() {
                   <path id="circ" d="M100 100 m-82 0 a82 82 0 1 1 164 0 a82 82 0 1 1 -164 0" />
                 </defs>
                 <text fontSize="13" fill="#f3e1dc" fontFamily="IBM Plex Sans Arabic, sans-serif" letterSpacing="2">
-                  <textPath href="#circ">✦ مصمّمة إلك ✦ باسمك ✦ بلونك ✦ بفكرتك ✦ مصمّمة إلك ✦ باسمك ✦</textPath>
+                  <textPath href="#circ">✦ صُنعت باليد ✦ بحب ✦ بصبر ✦ إلك ✦ صُنعت باليد ✦ بحب ✦</textPath>
                 </text>
               </svg>
             </motion.div>
