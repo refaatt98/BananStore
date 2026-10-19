@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Mail, MessageCircle, Instagram, Send } from "lucide-react";
+import { Mail, MessageCircle, Send } from "lucide-react";
 import { Link } from "react-router";
 import { useSite } from "../lib/site";
 import { Diamond, Spool } from "../components/Craft";
