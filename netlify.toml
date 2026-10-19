@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────
+# Netlify — متجر بَنان
+# اربطي المستودع بـ Netlify وكل شي بيشتغل لحاله:
+# الأمر npm run build، والمجلد المنشور dist.
+# ─────────────────────────────────────────────────────────────
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+# روابط مألوفة قد يكتبها الزوار
+[[redirects]]
+  from = "/basket"
+  to = "/cart"
+  status = 301
+
+[[redirects]]
+  from = "/favorites"
+  to = "/wishlist"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/story"
+  status = 301
+
+# تطبيق صفحة واحدة: أي رابط يفتح index.html و React Router يتولى الباقي
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,371 @@
+@import "tailwindcss";
+
+/* ══════════════════════════════════════════════════════════════
+   متجر بَنان — كل الألوان والخطوط هنا
+   غيّري القيمة مرة واحدة، والموقع كله يتبعها.
+   ══════════════════════════════════════════════════════════════ */
+@theme {
+  /* الخلفيات — كريمي دافئ مثل القماش الخام */
+  --color-cream: #fbf7f2;
+  --color-cream-2: #f5ede3;
+  --color-sand: #ebdecd;
+  --color-linen: #fffdfa;
+
+  /* البني — لون الشعار، للنصوص والخطوط */
+  --color-cocoa: #4a2a18;
+  --color-cocoa-2: #6e4c38;
+  --color-cocoa-3: #9c8070;
+  --color-line: #e4d5c4;
+
+  /* ألوان مكمّلة هادئة */
+  --color-rose: #c98f86; /* وردي ترابي */
+  --color-rose-soft: #f3e1dc;
+  --color-sage: #93a386; /* أخضر مريمية */
+  --color-sage-soft: #e3e9dc;
+  --color-gold: #c5a46d; /* خيط ذهبي */
+  --color-gold-soft: #f3e8d2;
+
+  /* الخطوط */
+  --font-display: "Aref Ruqaa", "Amiri", serif; /* عناوين كبيرة بروح الشعار */
+  --font-serif: "Amiri", "Times New Roman", serif; /* اقتباسات وعناوين فرعية */
+  --font-sans: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif; /* النصوص */
+
+  /* الحركة */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-swing: swing 3.2s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(var(--r, 0deg));
+    }
+    50% {
+      transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 6deg));
+    }
+  }
+  @keyframes swing {
+    0%,
+    100% {
+      transform: rotate(-5deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(50%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-cream);
+    color: var(--color-cocoa);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    scroll-behavior: smooth;
+  }
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    background: var(--color-cream);
+  }
+  /* ملمس قماش ناعم فوق الخلفية */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .45 0 0 0 0 .38 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection {
+    background: var(--color-rose-soft);
+    color: var(--color-cocoa);
+  }
+  :focus-visible {
+    outline: 2px dashed var(--color-rose);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  button {
+    cursor: pointer;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .container-b {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .container-b {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* غرزة خياطة متقطعة */
+  .stitch {
+    background-image: linear-gradient(
+      to left,
+      currentColor 0 55%,
+      transparent 55% 100%
+    );
+    background-size: 12px 2px;
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 2px;
+  }
+
+  /* حدود مخيطة داخل البطاقة */
+  .stitched {
+    position: relative;
+  }
+  .stitched::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1.5px dashed color-mix(in oklab, var(--color-cocoa) 22%, transparent);
+    border-radius: inherit;
+    pointer-events: none;
+    transition: border-color 0.5s var(--ease-soft), inset 0.5s var(--ease-soft);
+  }
+  .stitched:hover::after {
+    border-color: color-mix(in oklab, var(--color-rose) 80%, transparent);
+    inset: 5px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.8rem 1.6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.3s var(--ease-soft), background 0.3s, color 0.3s, box-shadow 0.3s;
+    position: relative;
+    white-space: nowrap;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    background: var(--color-cocoa);
+    color: var(--color-cream);
+    box-shadow: 0 10px 24px -14px var(--color-cocoa);
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: inherit;
+    border: 1px dashed color-mix(in oklab, var(--color-cream) 45%, transparent);
+    pointer-events: none;
+  }
+  .btn-primary:hover {
+    background: var(--color-cocoa-2);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-cocoa);
+    border: 1.5px solid var(--color-cocoa);
+  }
+  .btn-ghost:hover {
+    background: var(--color-cocoa);
+    color: var(--color-cream);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 14px;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-linen);
+    padding: 0.75rem 1rem;
+    color: var(--color-cocoa);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field::placeholder {
+    color: var(--color-cocoa-3);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-rose);
+    box-shadow: 0 0 0 4px var(--color-rose-soft);
+  }
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--color-cocoa-2);
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-rose);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ══ طباعة الفواتير ══════════════════════════════════════ */
+.print-area {
+  display: none;
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  body::before {
+    display: none !important;
+  }
+  body > *:not(.print-area) {
+    display: none !important;
+  }
+  .print-area {
+    display: block;
+    color: #1f1410;
+    font-family: var(--font-sans);
+    font-size: 12pt;
+  }
+  .invoice {
+    break-after: page;
+    page-break-after: always;
+  }
+  .invoice:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .inv-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #4a2a18;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .inv-logo {
+    height: 70px;
+    width: auto;
+  }
+  .inv-meta {
+    text-align: left;
+  }
+  .inv-meta h1 {
+    font-size: 18pt;
+    font-weight: 700;
+  }
+  .inv-num {
+    font-size: 15pt;
+    font-weight: 700;
+    direction: ltr;
+  }
+  .inv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .inv-grid > div {
+    border: 1px dashed #b9a493;
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .inv-grid h2 {
+    font-size: 10pt;
+    color: #6e4c38;
+    margin-bottom: 4px;
+  }
+  .inv-table,
+  .inv-sum {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .inv-table th,
+  .inv-table td {
+    border-bottom: 1px solid #e4d5c4;
+    padding: 7px 6px;
+    text-align: right;
+    vertical-align: top;
+  }
+  .inv-table th {
+    background: #f5ede3;
+    font-size: 10pt;
+  }
+  .inv-sub {
+    font-size: 9.5pt;
+    color: #6e4c38;
+  }
+  .inv-bottom {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .inv-notes p {
+    margin-bottom: 6px;
+    font-size: 10.5pt;
+  }
+  .inv-sum td {
+    padding: 5px 6px;
+  }
+  .inv-sum td:last-child {
+    text-align: left;
+    direction: ltr;
+  }
+  .inv-total td {
+    border-top: 2px solid #4a2a18;
+    font-weight: 700;
+    font-size: 13pt;
+  }
+  .inv-foot {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 10pt;
+    color: #6e4c38;
+    border-top: 1px dashed #b9a493;
+    padding-top: 10px;
+  }
+}
