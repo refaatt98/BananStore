@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Gift, LoaderCircle, Lock, ShoppingBag, Tag, X } from "lucide-react";
+import { Check, LoaderCircle, Lock, ShoppingBag, Tag, X } from "lucide-react";
 import { useEffect, useState, type FormEvent, type InputHTMLAttributes } from "react";
 import { Link, useNavigate } from "react-router";
 import { ProductMedia } from "../components/ProductMedia";
@@ -53,8 +53,7 @@ export default function Checkout() {
     if (promo.freeDelivery) delivery = 0;
     else discount = promo.discount;
   }
-  const giftFee = form.giftWrap ? site.giftWrapPrice : 0;
-  const total = Math.max(subtotal + delivery + giftFee - discount, 0);
+  const total = Math.max(subtotal + delivery - discount, 0);
 
   // إعادة حساب الخصم إذا تغيّرت السلة أو المنطقة
   useEffect(() => {
@@ -199,28 +198,7 @@ export default function Checkout() {
             </div>
           </fieldset>
 
-          <fieldset>
-            {step(3, "لمسة إضافية")}
-            <label className={`flex cursor-pointer items-start gap-4 rounded-2xl border-2 p-4 transition ${form.giftWrap ? "border-rose bg-rose-soft/50" : "border-line"}`}>
-              <input type="checkbox" checked={form.giftWrap} onChange={(e) => set("giftWrap", e.target.checked)} className="mt-1 size-5 accent-[var(--color-rose)]" />
-              <span className="flex-1">
-                <span className="flex items-center gap-2 font-semibold"><Gift className="size-5 text-rose" /> تغليف هدية مع كرت بخط اليد</span>
-                <span className="mt-1 block text-sm text-cocoa-2">علبة كرافت، شريطة، وكرت بنكتب عليه رسالتك · {formatPrice(site.giftWrapPrice)}</span>
-              </span>
-            </label>
-            <AnimatePresence>
-              {form.giftWrap && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                  <label htmlFor="giftMessage" className="label mt-4">الرسالة على الكرت</label>
-                  <textarea id="giftMessage" rows={2} maxLength={140} value={form.giftMessage} onChange={(e) => set("giftMessage", e.target.value)} className="field resize-none font-serif text-lg" placeholder="كل عام وإنتِ بخير يا أحلى صديقة 🤍" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </fieldset>
 
-          <div className="rounded-2xl bg-cream-2 p-4 text-sm leading-7">
-            <b>طريقة الدفع:</b> الدفع نقداً عند الاستلام. بعد ما تبعتي الطلب، رح يفتحلك واتساب لتبعتيلنا التفاصيل ونأكد معك.
-          </div>
         </div>
 
         <aside className="h-fit rounded-[2rem] border border-dashed border-line bg-linen p-6 lg:sticky lg:top-28">
@@ -264,7 +242,6 @@ export default function Checkout() {
           <dl className="mt-4 space-y-2 border-t border-dashed border-line pt-4 text-sm">
             <div className="flex justify-between"><dt>المجموع</dt><dd className="tabular-nums">{formatPrice(subtotal)}</dd></div>
             <div className="flex justify-between"><dt>{isPickup ? "الاستلام" : "التوصيل"}</dt><dd className="tabular-nums">{delivery === 0 ? <span className="text-sage">{isPickup ? "بدون رسوم" : "مجاني"}</span> : formatPrice(delivery)}</dd></div>
-            {form.giftWrap && <div className="flex justify-between"><dt>تغليف هدية</dt><dd className="tabular-nums">{formatPrice(giftFee)}</dd></div>}
             {discount > 0 && <div className="flex justify-between text-sage"><dt>الخصم</dt><dd className="tabular-nums">− {formatPrice(discount)}</dd></div>}
             <div className="flex justify-between border-t border-dashed border-line pt-3 text-lg font-bold"><dt>الإجمالي</dt><dd className="tabular-nums">{formatPrice(total)}</dd></div>
           </dl>

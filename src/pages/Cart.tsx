@@ -1,7 +1,6 @@
 import { AnimatePresence } from "motion/react";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { Link } from "react-router";
-import { FreeDeliveryMeter } from "../components/CartDrawer";
 import { CartLine } from "../components/CartLine";
 import { EmptyState, PageHero } from "../components/ui";
 import { formatPrice, piecesLabel } from "../lib/format";
@@ -37,7 +36,6 @@ export default function Cart() {
             </div>
             <aside className="h-fit space-y-4 rounded-[2rem] border border-dashed border-line bg-linen p-6 lg:sticky lg:top-28">
               <h2 className="font-display text-2xl">ملخّص الطلب</h2>
-              <FreeDeliveryMeter subtotal={subtotal} />
               <div className="flex justify-between"><span>مجموع القطع</span><b className="tabular-nums">{formatPrice(subtotal)}</b></div>
               <div className="flex justify-between text-sm text-cocoa-3"><span>التوصيل</span><span>بيتحسب حسب المنطقة</span></div>
               <Link to="/checkout" className="btn btn-primary w-full">
