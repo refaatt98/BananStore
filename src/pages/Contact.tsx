@@ -1,4 +1,4 @@
-
+```tsx
 import { motion } from "motion/react";
 import { Mail } from "lucide-react";
 import { Link } from "react-router";
@@ -17,7 +17,7 @@ export function Footer() {
         viewBox="0 0 1200 40"
         preserveAspectRatio="none"
         className="absolute -top-[39px] h-10 w-full text-cocoa"
-        aria-hidden
+        aria-hidden="true"
       >
         <path
           d="M0 40 V20 Q25 0 50 20 T100 20 T150 20 T200 20 T250 20 T300 20 T350 20 T400 20 T450 20 T500 20 T550 20 T600 20 T650 20 T700 20 T750 20 T800 20 T850 20 T900 20 T950 20 T1000 20 T1050 20 T1100 20 T1150 20 T1200 20 V40 Z"
@@ -27,7 +27,7 @@ export function Footer() {
 
       <div
         className="pointer-events-none absolute inset-x-0 top-3 h-px border-t border-dashed border-cream/20"
-        aria-hidden
+        aria-hidden="true"
       />
 
       <motion.div
@@ -78,7 +78,7 @@ export function Footer() {
             <a
               href={`mailto:${site.email}`}
               className="grid size-11 place-items-center rounded-full border border-dashed border-cream/30 transition hover:bg-cream hover:text-cocoa"
-              aria-label="البريد"
+              aria-label="البريد الإلكتروني"
             >
               <Mail className="size-5" strokeWidth={1.7} />
             </a>
@@ -155,3 +155,4 @@ export function Footer() {
     </footer>
   );
 }
+```
