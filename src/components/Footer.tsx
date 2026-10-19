@@ -115,7 +115,6 @@ export function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm text-cream/75">
               <li><Link to="/story" className="hover:text-cream">قصتنا</Link></li>
-              <li><Link to="/custom" className="hover:text-cream">اطلبي قطعتك</Link></li>
               <li><Link to="/contact" className="hover:text-cream">تواصلي معنا</Link></li>
               <li><Link to="/contact#faq" className="hover:text-cream">الأسئلة الشائعة</Link></li>
               <li><Link to="/wishlist" className="hover:text-cream">المفضلة</Link></li>

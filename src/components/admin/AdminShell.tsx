@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ExternalLink,
   FolderTree,
-  Gift,
   HelpCircle,
   Images,
   LayoutDashboard,
@@ -36,7 +35,6 @@ const nav = [
   { to: "/admin/gallery", label: "معرض الأعمال", icon: Images },
   { to: "/admin/reviews", label: "الآراء", icon: MessageSquareHeart },
   { to: "/admin/faqs", label: "الأسئلة الشائعة", icon: HelpCircle },
-  { to: "/admin/custom", label: "الطلبات الخاصة", icon: Gift },
   { to: "/admin/messages", label: "الرسائل", icon: Mail },
   { to: "/admin/settings", label: "الإعدادات", icon: Settings },
 ];

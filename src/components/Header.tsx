@@ -11,40 +11,9 @@ import { Logo } from "./Logo";
 export const navLinks = [
   { to: "/", label: "الرئيسية" },
   { to: "/shop", label: "المتجر" },
-  { to: "/custom", label: "اطلبي قطعتك" },
   { to: "/story", label: "قصتنا" },
   { to: "/contact", label: "تواصلي معنا" },
 ];
-
-function AnnouncementBar() {
-  const { site } = useSite();
-  const announcements = site.announcements.length ? site.announcements : [site.tagline];
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % announcements.length), 4200);
-    return () => clearInterval(t);
-  }, [announcements.length]);
-  return (
-    <div className="relative overflow-hidden bg-cocoa text-cream">
-      <div className="container-b flex h-9 items-center justify-center text-[0.8rem]">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={i}
-            initial={{ y: 14, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -14, opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="flex items-center gap-2 truncate"
-          >
-            <Diamond className="size-2 text-rose" />
-            {announcements[i % announcements.length]}
-            <Diamond className="size-2 text-rose" />
-          </motion.p>
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
 
 function CartButton() {
   const { count, setDrawerOpen, cartIconRef, bump } = useShop();
@@ -115,7 +84,6 @@ export function Header() {
 
   return (
     <>
-      <AnnouncementBar />
       <header
         className={`sticky top-0 z-40 transition-all duration-500 ${
           scrolled ? "bg-cream/85 shadow-[0_8px_30px_-20px_rgba(74,42,24,.35)] backdrop-blur-md" : "bg-cream"

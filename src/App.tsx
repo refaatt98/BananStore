@@ -10,7 +10,6 @@ const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const OrderDone = lazy(() => import("./pages/OrderDone"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
-const Custom = lazy(() => import("./pages/Custom"));
 const Story = lazy(() => import("./pages/Story"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -28,7 +27,6 @@ const AdminPromos = lazy(() => import("./pages/admin/Promos"));
 const AdminGallery = lazy(() => import("./pages/admin/Gallery"));
 const AdminReviews = lazy(() => import("./pages/admin/Reviews"));
 const AdminFaqs = lazy(() => import("./pages/admin/Faqs"));
-const AdminCustomRequests = lazy(() => import("./pages/admin/CustomRequests"));
 const AdminMessages = lazy(() => import("./pages/admin/Messages"));
 const AdminSettings = lazy(() => import("./pages/admin/Settings"));
 const AdminStatuses = lazy(() => import("./pages/admin/Statuses"));
@@ -52,7 +50,6 @@ export default function App() {
         <Route path="gallery" element={<AdminGallery />} />
         <Route path="reviews" element={<AdminReviews />} />
         <Route path="faqs" element={<AdminFaqs />} />
-        <Route path="custom" element={<AdminCustomRequests />} />
         <Route path="messages" element={<AdminMessages />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
@@ -64,7 +61,6 @@ export default function App() {
         <Route path="checkout" element={<Checkout />} />
         <Route path="order/:id" element={<OrderDone />} />
         <Route path="wishlist" element={<Wishlist />} />
-        <Route path="custom" element={<Custom />} />
         <Route path="story" element={<Story />} />
         <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />

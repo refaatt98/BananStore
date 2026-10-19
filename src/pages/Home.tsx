@@ -1,7 +1,7 @@
 import { Hero } from "../components/home/Hero";
 import {
   CategoriesSection,
-  CustomCta,
+  ShopCta,
   FeaturedSection,
   GallerySection,
   WorksSection,
@@ -37,7 +37,7 @@ export default function Home() {
       <FeaturedSection products={featured} />
       <ProcessSection steps={steps} />
       <ValuesStrip />
-      <CustomCta />
+      <ShopCta />
       <WorksSection items={gallery} />
       <ReviewsSection reviews={reviews} />
       {gallery.length === 0 && <GallerySection products={latest} />}

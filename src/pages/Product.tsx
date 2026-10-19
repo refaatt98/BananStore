@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronDown, Clock, Gift, Heart, PenLine, Share2, ShoppingBag, Star, Truck } from "lucide-react";
+import { Check, ChevronDown, Heart, PenLine, Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type MouseEvent, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
 import { QtyStepper } from "../components/CartLine";
@@ -419,11 +419,6 @@ function ProductView({ product }: { product: TProduct }) {
               </button>
             </div>
 
-            <ul className="mt-7 grid gap-3 rounded-3xl border border-dashed border-line bg-linen p-5 text-sm sm:grid-cols-3">
-              <li className="flex items-center gap-2"><Clock className="size-5 shrink-0 text-rose" /> {product.makingTime || "صُنع باليد بحب"}</li>
-              <li className="flex items-center gap-2"><Truck className="size-5 shrink-0 text-rose" /> {site.freeDeliveryOver != null ? <>مجاني فوق {formatPrice(site.freeDeliveryOver)}</> : "توصيل لكل فلسطين"}</li>
-              <li className="flex items-center gap-2"><Gift className="size-5 shrink-0 text-rose" /> تغليف هدية بـ {formatPrice(site.giftWrapPrice)}</li>
-            </ul>
             {!out && product.stock !== null && product.stock <= 5 && (
               <p className="mt-3 text-sm font-semibold text-rose">باقي {product.stock === 1 ? "قطعة وحدة بس" : `${product.stock} قطع بس`} — كل قطعة معمولة بإيدينا 🤍</p>
             )}
@@ -438,9 +433,6 @@ function ProductView({ product }: { product: TProduct }) {
                 </Accordion>
               )}
               {product.care && <Accordion title="العناية بالقطعة">{product.care}</Accordion>}
-              <Accordion title="التوصيل والإرجاع">
-                توصيل لكل فلسطين خلال 2 – 5 أيام عمل، والدفع عند الاستلام. القطع الجاهزة بتنرجع خلال 3 أيام إذا كانت بحالتها الأصلية؛ القطع المخصّصة ما بتنرجع.
-              </Accordion>
             </div>
           </div>
         </div>

@@ -46,7 +46,6 @@ export default function AdminDashboard() {
   const alerts = [
     stats?.pendingReviews ? { to: "/admin/reviews", text: `${stats.pendingReviews} رأي بستنى موافقتك`, icon: MessageSquareHeart } : null,
     stats?.unreadMessages ? { to: "/admin/messages", text: `${stats.unreadMessages} رسالة جديدة`, icon: Mail } : null,
-    stats?.newCustom ? { to: "/admin/custom", text: `${stats.newCustom} طلب خاص جديد`, icon: Gift } : null,
     stats?.lowStock ? { to: "/admin/products", text: `${stats.lowStock} منتج كميته قليلة (2 أو أقل)`, icon: AlertTriangle } : null,
   ].filter(Boolean) as { to: string; text: string; icon: typeof Mail }[];
 

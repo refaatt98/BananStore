@@ -2,36 +2,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { ShoppingBag, X } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { useSite } from "../lib/site";
 import { formatPrice, piecesLabel } from "../lib/format";
 import { useShop } from "../lib/store";
 import { CartLine } from "./CartLine";
-import { YarnBall } from "./Craft";
-
-export function FreeDeliveryMeter({ subtotal }: { subtotal: number }) {
-  const { site } = useSite();
-  const goal = site.freeDeliveryOver;
-  if (goal == null || goal <= 0) return null;
-  const pct = Math.min(subtotal / goal, 1);
-  const left = goal - subtotal;
-  return (
-    <div className="rounded-2xl bg-cream-2 p-3.5">
-      <p className="mb-2 text-sm">
-        {left > 0 ? (
-          <>باقي <b className="tabular-nums">{formatPrice(left)}</b> وبصير التوصيل مجاني 🚚</>
-        ) : (
-          <>مبروك! التوصيل عليكِ مجاني 🎉</>
-        )}
-      </p>
-      <div className="relative h-2 rounded-full bg-sand">
-        <motion.div className="absolute inset-y-0 right-0 rounded-full bg-rose" initial={false} animate={{ width: `${pct * 100}%` }} transition={{ type: "spring", damping: 20 }} />
-        <motion.div className="absolute top-1/2 -translate-y-1/2" initial={false} animate={{ right: `calc(${pct * 100}% - 10px)` }} transition={{ type: "spring", damping: 20 }}>
-          <YarnBall className="size-5" color="#c98f86" />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
 
 export function CartDrawer() {
   const { drawerOpen, setDrawerOpen, items, subtotal, count } = useShop();
@@ -83,9 +56,6 @@ export function CartDrawer() {
               </div>
             ) : (
               <>
-                <div className="px-5 pt-4">
-                  <FreeDeliveryMeter subtotal={subtotal} />
-                </div>
                 <ul className="flex-1 overflow-y-auto px-5">
                   <AnimatePresence initial={false}>
                     {items.map((i) => (

@@ -108,7 +108,6 @@ export default function Story() {
           <p className="mt-4 text-cream/70">— صاحبة بَنان</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/shop" className="btn bg-cream text-cocoa hover:bg-rose hover:text-white">تصفّحي القطع</Link>
-            <Link to="/custom" className="btn border border-cream/40 text-cream hover:bg-cream hover:text-cocoa">اطلبي قطعة خاصة</Link>
           </div>
         </Reveal>
       </section>

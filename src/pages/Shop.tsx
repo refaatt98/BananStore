@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { YarnBall } from "../components/Craft";
 import { YarnLoader } from "../components/Loader";
 import { ProductCard } from "../components/ProductCard";
@@ -189,11 +189,10 @@ export default function Shop() {
           <EmptyState
             icon={<YarnBall className="size-20" color="#e9c2bb" />}
             title="ما لقينا قطع بهالمواصفات"
-            text="جرّبي كلمة تانية أو امسحي الفلاتر — أو اطلبي قطعة مخصوص إلك!"
+            text="جرّبي كلمة تانية أو امسحي الفلاتر"
           >
             <div className="mt-2 flex flex-wrap justify-center gap-2">
               <button onClick={() => { setSearchText(""); setParams({}, { replace: true }); }} className="btn btn-ghost">عرض كل القطع</button>
-              <Link to="/custom" className="btn btn-primary">اطلبي قطعة خاصة</Link>
             </div>
           </EmptyState>
         )}

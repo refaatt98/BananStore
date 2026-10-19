@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { CalendarDays, ChevronLeft, ChevronRight, Download, Eye, LoaderCircle, MoreHorizontal, Plus, Printer, RefreshCw, Search, X } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight, Download, Eye, LoaderCircle, MoreHorizontal, Plus, Printer, RefreshCw, Search, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { WhatsappIcon } from "../../components/Icons";
@@ -10,6 +10,8 @@ import { useStatuses } from "../../components/admin/statuses";
 import { AdminPageHeader, StatusBadge, statusInfo, useToast } from "../../components/admin/ui";
 import {
   adminBulkStatus,
+  adminDeleteOrder,
+  adminDeleteOrders,
   adminListOrders,
   adminOrderZones,
   adminOrdersSummary,
@@ -75,9 +77,11 @@ function csvCell(v: unknown) {
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-function RowMenu({ o, onOpen, onPrint }: { o: Order; onOpen: () => void; onPrint: () => void }) {
+function RowMenu({ o, onOpen, onPrint, onDelete }: { o: Order; onOpen: () => void; onPrint: () => void; onDelete: () => void }) {
   const { statuses } = useStatuses();
   const [open, setOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  useEffect(() => { if (!open) setConfirmDelete(false); }, [open]);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -96,6 +100,12 @@ function RowMenu({ o, onOpen, onPrint }: { o: Order; onOpen: () => void; onPrint
             <button onClick={() => { setOpen(false); onOpen(); }} className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-cream-2"><Eye className="size-4" /> التفاصيل</button>
             <button onClick={() => { setOpen(false); onPrint(); }} className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-cream-2"><Printer className="size-4" /> طباعة</button>
             <a href={whatsappLink(customerWhatsapp(o.phone), statusMessageForCustomer(o, statuses))} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-cream-2"><WhatsappIcon className="size-4" /> واتساب</a>
+            <button
+              onClick={() => { if (!confirmDelete) return setConfirmDelete(true); setOpen(false); onDelete(); }}
+              className={`flex w-full items-center gap-2 px-4 py-2 text-sm ${confirmDelete ? "bg-rose text-white" : "text-rose hover:bg-rose-soft"}`}
+            >
+              <Trash2 className="size-4" /> {confirmDelete ? "متأكدة؟ احذفي" : "حذف الطلب"}
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -182,6 +192,29 @@ export default function AdminOrders() {
     try {
       await adminBulkStatus(selected, s);
       toast(`انتقل ${selected.length} طلب لـ «${statusInfo(statuses, s).label}»`);
+      setSelected([]);
+      void load();
+    } catch (e) {
+      toast(e instanceof Error ? e.message : "خطأ", "err");
+    }
+  };
+
+  const removeOne = async (o: Order) => {
+    try {
+      await adminDeleteOrder(o.id);
+      toast(`انحذف الطلب #${o.number}`);
+      setSelected((s) => s.filter((x) => x !== o.id));
+      void load();
+    } catch (e) {
+      toast(e instanceof Error ? e.message : "خطأ", "err");
+    }
+  };
+
+  const removeSelected = async () => {
+    if (!selected.length || !window.confirm(`حذف ${selected.length} طلب نهائياً؟`)) return;
+    try {
+      await adminDeleteOrders(selected);
+      toast(`انحذف ${selected.length} طلب`);
       setSelected([]);
       void load();
     } catch (e) {
@@ -325,6 +358,7 @@ export default function AdminOrders() {
               {statuses.filter((s) => s.active).map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
             </select>
             <button onClick={() => setPrinting(orders?.filter((o) => selected.includes(o.id)) ?? [])} className="inline-flex items-center gap-1.5 rounded-full bg-cream/15 px-3 py-1.5 hover:bg-cream/25"><Printer className="size-4" /> طباعة</button>
+            <button onClick={() => void removeSelected()} className="inline-flex items-center gap-1.5 rounded-full bg-rose px-3 py-1.5 text-white hover:opacity-90"><Trash2 className="size-4" /> حذف</button>
             <button onClick={() => setSelected([])} className="ms-auto inline-flex items-center gap-1 text-cream/80 hover:text-cream"><X className="size-4" /> إلغاء</button>
           </motion.div>
         )}
@@ -375,7 +409,7 @@ export default function AdminOrders() {
                         {o.paymentStatus === "paid" ? "مدفوع" : o.paymentStatus === "refunded" ? "مُرجع" : "الدفع عند الاستلام"}
                       </span>
                     </td>
-                    <td className="p-3"><RowMenu o={o} onOpen={() => openOrder(o.id)} onPrint={() => setPrinting([o])} /></td>
+                    <td className="p-3"><RowMenu o={o} onOpen={() => openOrder(o.id)} onPrint={() => setPrinting([o])} onDelete={() => void removeOne(o)} /></td>
                   </tr>
                 );
               })}
@@ -401,7 +435,7 @@ export default function AdminOrders() {
                   <span className="text-xs text-cocoa-3">{piecesLabel(o.items.reduce((s, i) => s + i.qty, 0))}</span>
                 </span>
               </button>
-              <RowMenu o={o} onOpen={() => openOrder(o.id)} onPrint={() => setPrinting([o])} />
+              <RowMenu o={o} onOpen={() => openOrder(o.id)} onPrint={() => setPrinting([o])} onDelete={() => void removeOne(o)} />
             </li>
           ))}
         </ul>
