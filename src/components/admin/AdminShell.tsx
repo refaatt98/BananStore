@@ -8,7 +8,6 @@ import {
   LayoutDashboard,
   ListChecks,
   LoaderCircle,
-  LogOut,
   Mail,
   Menu,
   MessageSquareHeart,
@@ -20,8 +19,8 @@ import {
   X,
 } from "lucide-react";
 import { Suspense, useCallback, useEffect, useState } from "react";
-import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router";
-import { adminCountNewOrders, adminSignOut, isAdmin } from "../../lib/api";
+import { Link, NavLink, Outlet, useLocation } from "react-router";
+import { adminCountNewOrders } from "../../lib/api";
 import { supabase } from "../../lib/supabase";
 import { StatusesProvider } from "./statuses";
 import { ToastProvider, useToast } from "./ui";
@@ -64,7 +63,6 @@ function ding() {
 }
 
 function Sidebar({ newOrders, onNavigate }: { newOrders: number; onNavigate?: () => void }) {
-  const navigate = useNavigate();
   return (
     <div className="flex h-full flex-col">
       <Link to="/admin" onClick={onNavigate} className="flex items-center gap-3 px-5 py-5">
@@ -97,15 +95,6 @@ function Sidebar({ newOrders, onNavigate }: { newOrders: number; onNavigate?: ()
         <a href="/" target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm text-cream/80 hover:bg-cream/10">
           <ExternalLink className="size-4" /> عرض المتجر
         </a>
-        <button
-          onClick={async () => {
-            await adminSignOut();
-            navigate("/admin/login", { replace: true });
-          }}
-          className="flex w-full items-center gap-3 rounded-2xl px-4 py-2.5 text-sm text-cream/80 hover:bg-cream/10"
-        >
-          <LogOut className="size-4" /> تسجيل الخروج
-        </button>
       </div>
     </div>
   );
@@ -195,35 +184,8 @@ function ShellInner() {
   );
 }
 
-/** حارس الإدارة: لازم تكوني مسجّلة دخول وحسابك مدير */
+/** لوحة الإدارة — مفتوحة بدون تسجيل دخول */
 export function AdminShell() {
-  const [state, setState] = useState<"loading" | "ok" | "no">("loading");
-
-  useEffect(() => {
-    let alive = true;
-    const check = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) return alive && setState("no");
-      const ok = await isAdmin();
-      if (alive) setState(ok ? "ok" : "no");
-    };
-    void check();
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_OUT") setState("no");
-    });
-    return () => {
-      alive = false;
-      sub.subscription.unsubscribe();
-    };
-  }, []);
-
-  if (state === "loading")
-    return (
-      <div className="grid min-h-dvh place-items-center bg-cream">
-        <LoaderCircle className="size-8 animate-spin text-rose" />
-      </div>
-    );
-  if (state === "no") return <Navigate to="/admin/login" replace />;
   return (
     <ToastProvider>
       <StatusesProvider>
