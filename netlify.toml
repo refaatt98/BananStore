@@ -1,7 +1,5 @@
 # ─────────────────────────────────────────────────────────────
 # Netlify — متجر بَنان
-# اربطي المستودع بـ Netlify وكل شي بيشتغل لحاله:
-# الأمر npm run build، والمجلد المنشور dist.
 # ─────────────────────────────────────────────────────────────
 
 [build]
@@ -28,20 +26,22 @@
   to = "/story"
   status = 301
 
-# تطبيق صفحة واحدة: أي رابط يفتح index.html و React Router يتولى الباقي
+# تطبيق صفحة واحدة — React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# إعدادات الأمان والسماح بالتضمين داخل iframe
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
+    Content-Security-Policy = "frame-ancestors *"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
+# التخزين المؤقت للملفات الثابتة
 [[headers]]
   for = "/assets/*"
   [headers.values]
