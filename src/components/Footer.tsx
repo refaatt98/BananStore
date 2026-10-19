@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Mail } from "lucide-react";
 import { Link } from "react-router";
 import { useSite } from "../lib/site";
-import { Diamond, SewButton, Spool } from "./Craft";
+import { Diamond, Spool } from "./Craft";
 import { InstagramIcon, WhatsappIcon } from "./Icons";
 import { Logo } from "./Logo";
 
