@@ -1,167 +1,157 @@
 
-import { AnimatePresence, motion } from "motion/react";
-import { ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { InstagramIcon, WhatsappIcon } from "../components/Icons";
-import { PageHero, Reveal, SectionHeading } from "../components/ui";
-import { whatsappLink } from "../lib/api";
-import { useTitle } from "../lib/hooks";
+import { motion } from "motion/react";
+import { Mail } from "lucide-react";
+import { Link } from "react-router";
 import { useSite } from "../lib/site";
+import { Diamond, Spool } from "./Craft";
+import { InstagramIcon, WhatsappIcon } from "./Icons";
+import { Logo } from "./Logo";
 
-const channelsFor = (site: ReturnType<typeof useSite>["site"]) => [
-  {
-    icon: WhatsappIcon,
-    title: "واتساب",
-    value: "أسرع طريقة",
-    href: whatsappLink(site.whatsapp, "مرحبا بَنان 🤍"),
-    tint: "bg-sage-soft",
-  },
-  {
-    icon: InstagramIcon,
-    title: "إنستغرام",
-    value: `@${site.instagram}`,
-    href: `https://instagram.com/${site.instagram}`,
-    tint: "bg-rose-soft",
-  },
-  {
-    icon: null,
-    title: "اتصال",
-    value: site.phone,
-    href: `tel:${site.phone.replace(/\s/g, "")}`,
-    tint: "bg-gold-soft",
-  },
-];
-
-function Faq({ q, a, i }: { q: string; a: string; i: number }) {
-  const [open, setOpen] = useState(i === 0);
+export function Footer() {
+  const { site, categories } = useSite();
 
   return (
-    <div className="stitched rounded-3xl bg-linen">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        className="relative z-10 flex w-full items-center justify-between gap-4 p-5 text-start font-semibold"
+    <footer className="relative mt-24 bg-cocoa text-cream">
+      {/* حافة مموّجة مخيطة */}
+      <svg
+        viewBox="0 0 1200 40"
+        preserveAspectRatio="none"
+        className="absolute -top-[39px] h-10 w-full text-cocoa"
+        aria-hidden
       >
-        {q}
+        <path
+          d="M0 40 V20 Q25 0 50 20 T100 20 T150 20 T200 20 T250 20 T300 20 T350 20 T400 20 T450 20 T500 20 T550 20 T600 20 T650 20 T700 20 T750 20 T800 20 T850 20 T900 20 T950 20 T1000 20 T1050 20 T1100 20 T1150 20 T1200 20 V40 Z"
+          fill="currentColor"
+        />
+      </svg>
 
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          className="shrink-0"
-        >
-          <ChevronDown className="size-5" />
-        </motion.span>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
-          >
-            <p className="px-5 pb-5 leading-8 text-cocoa-2">{a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-export default function Contact() {
-  useTitle("تواصلي معنا");
-
-  const { site } = useSite();
-  const channels = channelsFor(site);
-
-  return (
-    <>
-      <PageHero
-        eyebrow="تواصلي معنا"
-        title="منحب نسمع منك"
-        text="سؤال، فكرة، أو بس بدك تحكي مرحبا — إحنا هون."
+      <div
+        className="pointer-events-none absolute inset-x-0 top-3 h-px border-t border-dashed border-cream/20"
+        aria-hidden
       />
 
-      <section className="container-b py-12 md:py-16">
-        {/* وسائل التواصل */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
-          {channels.map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.06}>
-              <a
-                href={c.href}
-                target={c.href.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
-                className={`stitched group flex h-full flex-col items-center gap-3 rounded-[1.75rem] p-5 text-center transition hover:-translate-y-1 ${c.tint}`}
-              >
-                <span className="grid size-12 place-items-center rounded-full bg-linen transition group-hover:rotate-12">
-                  {c.icon ? (
-                    <c.icon className="size-6" />
-                  ) : (
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      className="size-6"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.19 18a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.09 3.18 2 2 0 0 1 4.08 1h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.11L8.06 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.58 2.8.7A2 2 0 0 1 22 16.92Z"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                </span>
+      <motion.div
+        className="pointer-events-none absolute -top-14 end-[8%] hidden md:block"
+        initial={{ y: -20, rotate: -20, opacity: 0 }}
+        whileInView={{ y: 0, rotate: 12, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", damping: 10 }}
+      >
+        <Spool className="h-24 w-20" color="#c98f86" />
+      </motion.div>
 
-                <span className="font-semibold">{c.title}</span>
+      <div className="container-b relative grid grid-cols-1 gap-12 pb-10 pt-16 md:grid-cols-12">
+        {/* الشعار ومعلومات المتجر */}
+        <div className="min-w-0 md:col-span-4">
+          <Logo light className="h-20" />
 
-                <span
-                  className="break-all text-sm text-cocoa-2"
-                  dir={c.title === "واتساب" ? undefined : "ltr"}
-                >
-                  {c.value}
-                </span>
-              </a>
-            </Reveal>
-          ))}
+          <p className="mt-5 max-w-xs leading-8 text-cream/80">
+            {site.intro}.
+          </p>
+
+          <p className="mt-2 font-display text-xl text-rose-soft">
+            {site.tagline} 🫶🏼
+          </p>
+
+          {/* وسائل التواصل */}
+          <div className="mt-6 flex gap-2">
+            <a
+              href={`https://instagram.com/${site.instagram}`}
+              target="_blank"
+              rel="noreferrer"
+              className="grid size-11 place-items-center rounded-full border border-dashed border-cream/30 transition hover:bg-cream hover:text-cocoa"
+              aria-label="إنستغرام"
+            >
+              <InstagramIcon className="size-5" />
+            </a>
+
+            <a
+              href={`https://wa.me/${site.whatsapp}`}
+              target="_blank"
+              rel="noreferrer"
+              className="grid size-11 place-items-center rounded-full border border-dashed border-cream/30 transition hover:bg-cream hover:text-cocoa"
+              aria-label="واتساب"
+            >
+              <WhatsappIcon className="size-5" />
+            </a>
+
+            <a
+              href={`mailto:${site.email}`}
+              className="grid size-11 place-items-center rounded-full border border-dashed border-cream/30 transition hover:bg-cream hover:text-cocoa"
+              aria-label="البريد"
+            >
+              <Mail className="size-5" strokeWidth={1.7} />
+            </a>
+          </div>
         </div>
 
-        {/* الأسئلة الشائعة */}
-        <div id="faq" className="mt-14 scroll-mt-28">
-          <SectionHeading
-            eyebrow="أسئلة بتتكرر"
-            title="الأسئلة الشائعة"
-            align="start"
-          />
+        {/* روابط المتجر وبَنان */}
+        <div className="grid min-w-0 grid-cols-2 gap-8 md:col-span-8">
+          <div>
+            <h3 className="mb-4 flex items-center gap-2 font-serif text-lg">
+              <Diamond className="size-2 text-rose" />
+              المتجر
+            </h3>
 
-          <FaqList />
+            <ul className="space-y-2.5 text-sm text-cream/75">
+              {categories.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    to={`/shop?category=${c.slug}`}
+                    className="transition hover:text-cream"
+                  >
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 flex items-center gap-2 font-serif text-lg">
+              <Diamond className="size-2 text-rose" />
+              بَنان
+            </h3>
+
+            <ul className="space-y-2.5 text-sm text-cream/75">
+              <li>
+                <Link to="/story" className="hover:text-cream">
+                  قصتنا
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/contact" className="hover:text-cream">
+                  تواصلي معنا
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/contact#faq" className="hover:text-cream">
+                  الأسئلة الشائعة
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/wishlist" className="hover:text-cream">
+                  المفضلة
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* حقوق النشر */}
+      <div className="border-t border-dashed border-cream/15">
+        <div className="container-b flex flex-col items-center justify-between gap-2 py-5 text-xs text-cream/60 sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} متجر بَنان — كل القطع مصنوعة باليد بحب.
+          </p>
+
+          <p>الدفع عند الاستلام · توصيل لكل فلسطين</p>
+        </div>
+      </div>
+    </footer>
   );
-}
-
-function FaqList() {
-  const { data: faqs } = useFaqs();
-
-  return (
-    <div className="space-y-3">
-      {faqs?.map((f, i) => (
-        <Faq key={f.id} q={f.question} a={f.answer} i={i} />
-      ))}
-    </div>
-  );
-}
-
-function useFaqs() {
-  const [faqs, setFaqs] = useState<any[] | undefined>(undefined);
-
-  useState(() => {
-    import("../lib/api").then(({ getFaqs }) => {
-      getFaqs().then(setFaqs).catch(() => setFaqs([]));
-    });
-  });
-
-  return { data: faqs };
 }
