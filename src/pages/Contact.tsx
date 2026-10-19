@@ -92,7 +92,7 @@ export default function Contact() {
                     </span>
                   </span>
 
-                  <Instagram className="ms-auto size-5 text-rose-soft" />
+                  <Send className="ms-auto size-5 text-rose-soft" />
                 </a>
 
                 <a
