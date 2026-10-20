@@ -240,8 +240,10 @@ function ProductView({ product }: { product: TProduct }) {
   const [added, setAdded] = useState(false);
   const [copied, setCopied] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const out = product.stock !== null && product.stock <= 0;
-  const maxQty = product.stock ?? 20;
+  const soldOut = product.stock !== null && product.stock <= 0;
+  const preorder = soldOut && product.preorder;
+  const out = soldOut && !product.preorder;
+  const maxQty = preorder ? 20 : (product.stock ?? 20);
   const wished = isWished(product.id);
   const { site, categories } = useSite();
   const category = categories.find((c) => c.id === product.categoryId);
@@ -381,7 +383,7 @@ function ProductView({ product }: { product: TProduct }) {
               >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span key={String(added)} initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -12, opacity: 0 }} className="flex items-center gap-2">
-                    {out ? "نفدت الكمية" : added ? (<><Check className="size-5" /> انضافت للسلة</>) : (<><ShoppingBag className="size-5" /> أضيفي للسلة · {formatPrice(product.price * qty)}</>)}
+                    {out ? "نفدت الكمية" : added ? (<><Check className="size-5" /> انضافت للسلة</>) : (<><ShoppingBag className="size-5" /> {preorder ? "اطلبي مسبقاً" : "أضيفي للسلة"} · {formatPrice(product.price * qty)}</>)}
                   </motion.span>
                 </AnimatePresence>
               </button>
@@ -419,7 +421,13 @@ function ProductView({ product }: { product: TProduct }) {
               </button>
             </div>
 
-            {!out && product.stock !== null && product.stock <= 5 && (
+            {preorder && (
+              <p className="mt-3 rounded-2xl bg-rose-soft/60 px-4 py-3 text-sm leading-7 text-cocoa">
+                <b>طلب مسبق:</b> القطعة خلصت حالياً، بس فيكِ تطلبيها هلأ ومنجهّزها إلك. رح نتواصل معك لنأكّد الطلب وموعد التجهيز 🤍
+              </p>
+            )}
+
+            {!soldOut && product.stock !== null && product.stock <= 5 && (
               <p className="mt-3 text-sm font-semibold text-rose">باقي {product.stock === 1 ? "قطعة وحدة بس" : `${product.stock} قطع بس`} — كل قطعة معمولة بإيدينا 🤍</p>
             )}
 

@@ -91,6 +91,7 @@ export const mapProduct = (r: Row): Product => ({
   sizes: r.sizes ?? [],
   personalizable: r.personalizable,
   handmade: !!r.handmade,
+  preorder: !!r.preorder,
   stock: r.stock,
   badge: r.badge,
   featured: r.featured,
@@ -107,7 +108,7 @@ const productToRow = (p: Partial<Product>): Row => {
     ["slug", "slug"], ["name", "name"], ["categoryId", "category_id"], ["price", "price"], ["compareAtPrice", "compare_at_price"],
     ["shortDescription", "short_description"], ["description", "description"], ["materials", "materials"], ["care", "care"],
     ["makingTime", "making_time"], ["art", "art"], ["images", "images"], ["colors", "colors"], ["sizes", "sizes"],
-    ["personalizable", "personalizable"], ["handmade", "handmade"], ["stock", "stock"], ["badge", "badge"], ["featured", "featured"], ["active", "active"], ["sort", "sort"],
+    ["personalizable", "personalizable"], ["handmade", "handmade"], ["preorder", "preorder"], ["stock", "stock"], ["badge", "badge"], ["featured", "featured"], ["active", "active"], ["sort", "sort"],
   ];
   for (const [k, col] of map) if (p[k] !== undefined) r[col] = p[k];
   return r;
@@ -204,6 +205,7 @@ export const mapOrder = (r: Row): Order => ({
     note: i.note,
     image: i.image,
     art: i.art,
+    preorder: !!i.preorder,
   })),
 });
 
@@ -656,7 +658,7 @@ export async function adminStats() {
 }
 
 export async function adminCountNewOrders(): Promise<number> {
-  const { count } = await supabase.from("orders").select("id", { count: "exact", head: true }).in("status", ["new", "pending"]);
+  const { count } = await supabase.from("orders").select("id", { count: "exact", head: true }).in("status", ["new", "pending", "preorder"]);
   return count ?? 0;
 }
 
