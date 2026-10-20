@@ -7,7 +7,7 @@ export const siteDefaults: SiteInfo = {
   tagline: "لأن التفاصيل تصنع الفرق",
   intro: "قطع يدوية مختارة بعناية، بتفاصيل تضيف لمسة خاصة ليومكِ",
   whatsapp: "972504590153",
-  instagram: "banan.store",
+  instagram: "banannstore",
   email: "hello@banan.store",
   phone: "050-459-0153",
   hours: "يومياً من 10 صباحاً حتى 9 مساءً",

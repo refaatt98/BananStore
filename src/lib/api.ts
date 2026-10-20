@@ -149,12 +149,16 @@ const mapZone = (r: Row): DeliveryZone => ({
   sort: r.sort,
 });
 
+// يقبل اسم المستخدم أو رابط الحساب كامل، ويرجّع اسم المستخدم بس
+const igHandle = (v: string | null) =>
+  (v ?? "").trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/^@/, "").split(/[/?#]/)[0];
+
 const mapSettings = (r: Row): SiteInfo => ({
   name: r.store_name,
   tagline: r.tagline,
   intro: r.intro,
   whatsapp: r.whatsapp,
-  instagram: r.instagram,
+  instagram: igHandle(r.instagram),
   email: r.email,
   phone: r.phone,
   hours: r.hours,
@@ -465,7 +469,7 @@ export async function adminSaveSettings(s: SiteInfo) {
       tagline: s.tagline,
       intro: s.intro,
       whatsapp: s.whatsapp.replace(/\D/g, ""),
-      instagram: s.instagram.replace(/^@/, ""),
+      instagram: igHandle(s.instagram),
       email: s.email,
       phone: s.phone,
       hours: s.hours,
