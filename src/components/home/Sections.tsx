@@ -104,7 +104,7 @@ export function ProcessSection({ steps }: { steps: ProcessStep[] }) {
 
   return (
     <section className="container-b py-20 md:py-28">
-      <SectionHeading eyebrow="من الإيد للقلب" title="كيف بتنصنع قطعتك؟" text="رحلة صغيرة بتمرّ فيها كل قطعة قبل ما توصل لإيدك." />
+      <SectionHeading eyebrow="من الإيد إلى القلب" title="كيف بتنصنع قطعتك؟" text="رحلة صغيرة بتمرّ فيها كل قطعة قبل ما توصل لإيدك." />
       <div ref={ref} className="relative mx-auto max-w-4xl">
         {/* الخيط */}
         <div className="absolute inset-y-0 right-6 w-0.5 translate-x-1/2 md:right-1/2" aria-hidden>
