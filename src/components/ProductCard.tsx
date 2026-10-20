@@ -47,7 +47,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           </motion.div>
         </Link>
 
-        <HangTag className="absolute -top-1 end-5 h-[4.5rem] w-12 transition-transform duration-500 group-hover:translate-y-1" />
+        {product.handmade && <HangTag className="absolute -top-1 end-5 h-[4.5rem] w-12 transition-transform duration-500 group-hover:translate-y-1" />}
 
         {product.badge && (
           <span className={`absolute start-4 top-4 rounded-full px-3 py-1 text-xs font-semibold ${badgeTone[product.badge]}`}>{product.badge}</span>
