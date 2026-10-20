@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { ArrowLeft, Gift, Hand, HandHeart, Leaf as LeafIcon, PenLine, Scissors as ScissorsIcon, Sparkles } from "lucide-react";
+import { ArrowLeft, Gift, Hand, HandHeart, Palette, PenLine, Scissors as ScissorsIcon, Sparkles } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router";
 import type { Category, GalleryItem, ProcessStep, Product, Review } from "../../types";
@@ -104,7 +104,7 @@ export function ProcessSection({ steps }: { steps: ProcessStep[] }) {
 
   return (
     <section className="container-b py-20 md:py-28">
-      <SectionHeading eyebrow="من الإيد للقلب" title="كيف بتنصنع قطعتك؟" text="رحلة صغيرة بتمرّ فيها كل قطعة قبل ما توصل لإيدك." />
+      <SectionHeading eyebrow="من الإيد إلى القلب" title="كيف بتنصنع قطعتك؟" text="رحلة صغيرة بتمرّ فيها كل قطعة قبل ما توصل لإيدك." />
       <div ref={ref} className="relative mx-auto max-w-4xl">
         {/* الخيط */}
         <div className="absolute inset-y-0 right-6 w-0.5 translate-x-1/2 md:right-1/2" aria-hidden>
@@ -150,9 +150,9 @@ export function ProcessSection({ steps }: { steps: ProcessStep[] }) {
 
 // ─── ليش بَنان ────────────────────────────────────────────
 const values = [
-  { icon: HandHeart, title: "كل قطعة إلها روح", text: "ما في آلات، في إيدين وساعات صبر وتفاصيل صغيرة." },
-  { icon: LeafIcon, title: "مواد ناعمة وطبيعية", text: "قطن، كتّان وخرز زجاجي مختار ليدوم معك." },
-  { icon: Sparkles, title: "قابلة للتخصيص", text: "اسمك، لونك المفضّل أو فكرة ببالك — بنعملها إلك." },
+  { icon: HandHeart, title: "لكل قطعة روح", text: "من فكرة نحبها، إلى قطعة نتخيّلها ونختارها لكِ." },
+  { icon: Palette, title: "ألوان وتفاصيل", text: "ألوان هادئة وتصاميم مختارة، تمنح كل قطعة طابعها الخاص." },
+  { icon: Sparkles, title: "لذوق يليق بكِ", text: "لأن الذوق الجميل يظهر في التفاصيل الصغيرة." },
 ];
 
 export function ValuesStrip() {
@@ -197,9 +197,9 @@ export function ShopCta() {
         <div className="relative grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
             <span className="eyebrow !text-rose-soft"><Diamond className="size-2" /> من إيدينا لإلك</span>
-            <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">قطع معمولة باليد، بتستنّاكِ تختاريها</h2>
+            <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">قطع اخترناها لتشبه ذوقكِ</h2>
             <p className="mt-4 max-w-lg leading-8 text-cream/80">
-              شنط، تطريز، إكسسوارات وهدايا — كل قطعة معمولة بحب وصبر، وجاهزة توصل لعندك.
+              أغلفة مصاحف، وبراويز مطرّزة، وقطع اخترناها لترافقكِ في يومكِ، أو لتكون هدية مميّزة لشخص عزيز على قلبكِ.
             </p>
             <Link to="/shop" className="btn mt-8 bg-cream text-cocoa hover:bg-rose hover:text-white">
               تصفّحي منتجاتنا <ArrowLeft className="size-4" />

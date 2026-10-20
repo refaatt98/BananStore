@@ -1,3 +1,4 @@
+import { Heart, PackageCheck, Scissors, Sparkles } from "lucide-react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
 import { Link } from "react-router";
@@ -6,18 +7,16 @@ import { ProductArt } from "../components/ProductArt";
 import { PageHero, Reveal, SectionHeading } from "../components/ui";
 import { getStory } from "../lib/api";
 import { useAsync, useTitle } from "../lib/hooks";
-import { useSite } from "../lib/site";
 
-const numbers = [
-  { value: "+500", label: "قطعة وصلت لأصحابها" },
-  { value: "+40", label: "ساعة شغل بالأسبوع" },
-  { value: "100%", label: "صنع باليد" },
-  { value: "∞", label: "حب بكل غرزة" },
+const features = [
+  { icon: Heart, label: "شغف بالتفاصيل" },
+  { icon: Scissors, label: "خياطة بعناية" },
+  { icon: Sparkles, label: "اختيارات مميزة" },
+  { icon: PackageCheck, label: "تفاصيل تستحق الاقتناء" },
 ];
 
 export default function Story() {
   useTitle("قصتنا");
-  const { site } = useSite();
   const { data: story } = useAsync(getStory, []);
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
@@ -40,12 +39,12 @@ export default function Story() {
           <span className="absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 rotate-[-4deg] bg-gold-soft/90 shadow-sm" aria-hidden />
         </Reveal>
         <Reveal delay={0.1}>
-          <span className="eyebrow"><Diamond className="size-2" /> مين إحنا</span>
+          <span className="eyebrow"><Diamond className="size-2" /> من نحن</span>
           <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">إيدين صغيرة، وأفكار كبيرة</h2>
           <div className="mt-5 space-y-4 leading-9 text-cocoa-2">
-            <p>بَنان مشروع صغير بلّش من حب للتفاصيل. كل قطعة عنا بتنعمل بإيدينا، غرزة بغرزة، بدون استعجال.</p>
-            <p>منختار الخيوط والخرز والأقمشة بعناية، ومنفكّر بكل قطعة كأنها رح تكون هدية لحدا غالي — لأنها غالباً بتكون هيك.</p>
-            <p className="font-display text-2xl text-cocoa">{site.tagline} 🫶🏼</p>
+            <p>في بنان، نؤمن بأن جمال كل قطعة يبدأ من تفاصيلها. لذلك نختار منتجاتنا بعناية، ونحرص على أن تجمع بين التصميم الأنيق، والجودة التي تدوم، واللمسة التي تجعلها أقرب إلى القلب.</p>
+            <p>من أغلفة المصاحف التي نخيطها بحب ودقة، إلى القطع التي ننتقيها بعناية لتناسب ذوقكم واحتياجاتكم، نمنح كل تفصيلة وقتها واهتمامها؛ لأننا نؤمن بأن العناية لا تُرى فحسب، بل تُلمس في كل استخدام.</p>
+            <p className="font-display text-2xl text-cocoa">لأن التفاصيل تصنع الفرق 🫶🏼</p>
           </div>
         </Reveal>
       </section>
@@ -83,13 +82,13 @@ export default function Story() {
         </div>
       </section>
 
-      {/* أرقام */}
+      {/* مميزاتنا */}
       <section className="container-b py-16 md:py-24">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {numbers.map((n, i) => (
-            <Reveal key={n.label} delay={i * 0.08} className="stitched rounded-[1.75rem] bg-linen p-6 text-center">
-              <p className="font-display text-4xl text-rose md:text-5xl">{n.value}</p>
-              <p className="mt-2 text-sm text-cocoa-2">{n.label}</p>
+        <div className="grid grid-cols-2 gap-3 rounded-[2rem] bg-cream-2 p-3 sm:gap-4 sm:p-4 md:grid-cols-4">
+          {features.map((f, i) => (
+            <Reveal key={f.label} delay={i * 0.08} className="flex flex-col items-center justify-center gap-2 rounded-[1.5rem] bg-white px-3 py-6 text-center">
+              <f.icon className="size-7 text-rose" strokeWidth={1.75} aria-hidden />
+              <p className="text-base font-semibold leading-snug text-cocoa sm:text-lg">{f.label}</p>
             </Reveal>
           ))}
         </div>
@@ -103,9 +102,9 @@ export default function Story() {
           <Leaf className="absolute end-6 bottom-6 h-20 w-12 rotate-12 opacity-70" />
           <Bow className="mx-auto h-12 w-16" color="#e9c2bb" />
           <blockquote className="mx-auto mt-6 max-w-2xl font-display text-3xl leading-relaxed md:text-4xl">
-            «ما في قطعة بتطلع من عنا إلا وفيها شوية من روحنا»
+            «لكل قطعة حكاية، ولكل تفصيلة أثر.»
           </blockquote>
-          <p className="mt-4 text-cream/70">— صاحبة بَنان</p>
+          <p className="mt-4 text-cream/70">— بمحبة، بنان</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/shop" className="btn bg-cream text-cocoa hover:bg-rose hover:text-white">تصفّحي القطع</Link>
           </div>
