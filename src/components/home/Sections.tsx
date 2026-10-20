@@ -34,7 +34,7 @@ export function Marquee() {
 export function CategoriesSection({ categories }: { categories: Category[] }) {
   return (
     <section className="container-b py-20 md:py-28">
-      <SectionHeading eyebrow="تسوّقي حسب" title="شو بدك تدلّلي حالك اليوم؟" text="ست عوالم صغيرة، كل وحدة فيها قطع معمولة بإيدينا وبحب." />
+      <SectionHeading eyebrow="تسوّقي حسب" title="شو بدك تدلّلي حالك اليوم؟" text="اختاري القسم اللي بيشبهك، وكل قسم فيه قطع مختارة بعناية وحب." />
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
         {categories.map((c, i) => (
           <Reveal key={c.slug} delay={i * 0.06}>
