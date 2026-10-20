@@ -269,7 +269,7 @@ export function Hero() {
             transition={{ delay: 1.6 }}
             className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-cocoa-3 lg:justify-start"
           >
-            <li>✦ +500 قطعة وصلت لأصحابها</li>
+            <li>✦ قطع محدودة</li>
             <li>✦ دفع عند الاستلام</li>
             <li>✦ تغليف هدية</li>
           </motion.ul>
