@@ -12,7 +12,7 @@ import { Reveal, SectionHeading } from "../ui";
 import { WorksCarousel } from "../WorksCarousel";
 
 // ─── شريط متحرك ───────────────────────────────────────────
-const marqueeWords = ["صُنع باليد", "كروشيه", "تطريز", "خرز", "قطعة ما بتتكرر", "تغليف بحب", "تفاصيل صغيرة", "خيوط طبيعية"];
+const marqueeWords = ["صُنع باليد", "كروشيه", "تطريز", "قطعة ما بتتكرر", "تغليف بحب", "تفاصيل صغيرة", "خيوط طبيعية"];
 
 export function Marquee() {
   const row = [...marqueeWords, ...marqueeWords];
