@@ -7,7 +7,6 @@ import { ProductArt } from "../components/ProductArt";
 import { PageHero, Reveal, SectionHeading } from "../components/ui";
 import { getStory } from "../lib/api";
 import { useAsync, useTitle } from "../lib/hooks";
-import { useSite } from "../lib/site";
 
 const features = [
   { icon: Heart, label: "شغف بالتفاصيل" },
@@ -18,7 +17,6 @@ const features = [
 
 export default function Story() {
   useTitle("قصتنا");
-  const { site } = useSite();
   const { data: story } = useAsync(getStory, []);
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
@@ -41,12 +39,12 @@ export default function Story() {
           <span className="absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 rotate-[-4deg] bg-gold-soft/90 shadow-sm" aria-hidden />
         </Reveal>
         <Reveal delay={0.1}>
-          <span className="eyebrow"><Diamond className="size-2" /> مين إحنا</span>
+          <span className="eyebrow"><Diamond className="size-2" /> من نحن</span>
           <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">إيدين صغيرة، وأفكار كبيرة</h2>
           <div className="mt-5 space-y-4 leading-9 text-cocoa-2">
-            <p>بَنان مشروع صغير بلّش من حب للتفاصيل. كل قطعة عنا بتنعمل بإيدينا، غرزة بغرزة، بدون استعجال.</p>
-            <p>منختار الخيوط والخرز والأقمشة بعناية، ومنفكّر بكل قطعة كأنها رح تكون هدية لحدا غالي — لأنها غالباً بتكون هيك.</p>
-            <p className="font-display text-2xl text-cocoa">{site.tagline} 🫶🏼</p>
+            <p>في بنان، نؤمن بأن جمال كل قطعة يبدأ من تفاصيلها. لذلك نختار منتجاتنا بعناية، ونحرص على أن تجمع بين التصميم الأنيق، والجودة التي تدوم، واللمسة التي تجعلها أقرب إلى القلب.</p>
+            <p>من أغلفة المصاحف التي نخيطها بحب ودقة، إلى القطع التي ننتقيها بعناية لتناسب ذوقكم واحتياجاتكم، نمنح كل تفصيلة وقتها واهتمامها؛ لأننا نؤمن بأن العناية لا تُرى فحسب، بل تُلمس في كل استخدام.</p>
+            <p className="font-display text-2xl text-cocoa">لأن التفاصيل تصنع الفرق 🫶🏼</p>
           </div>
         </Reveal>
       </section>
@@ -104,9 +102,9 @@ export default function Story() {
           <Leaf className="absolute end-6 bottom-6 h-20 w-12 rotate-12 opacity-70" />
           <Bow className="mx-auto h-12 w-16" color="#e9c2bb" />
           <blockquote className="mx-auto mt-6 max-w-2xl font-display text-3xl leading-relaxed md:text-4xl">
-            «ما في قطعة بتطلع من عنا إلا وفيها شوية من روحنا»
+            «لكل قطعة حكاية، ولكل تفصيلة أثر.»
           </blockquote>
-          <p className="mt-4 text-cream/70">— صاحبة بَنان</p>
+          <p className="mt-4 text-cream/70">— بمحبة، بنان</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/shop" className="btn bg-cream text-cocoa hover:bg-rose hover:text-white">تصفّحي القطع</Link>
           </div>
