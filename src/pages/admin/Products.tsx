@@ -99,6 +99,10 @@ export default function AdminProducts() {
                 </div>
               </div>
             </div>
+            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-dashed border-line pt-3">
+              <Toggle checked={p.handmade} onChange={(v) => patch(p, { handmade: v })} label="صُنع باليد" />
+              <Toggle checked={p.preorder} onChange={(v) => patch(p, { preorder: v })} label="طلب مسبق" />
+            </div>
             <div className="mt-3 flex items-center justify-between border-t border-dashed border-line pt-3">
               <Toggle checked={p.active} onChange={(v) => patch(p, { active: v })} label={p.active ? "ظاهر بالمتجر" : "مخفي"} />
               <div className="flex items-center gap-1">
