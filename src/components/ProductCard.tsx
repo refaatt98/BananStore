@@ -21,7 +21,9 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   const [color, setColor] = useState(product.colors[0] ?? NO_COLOR);
   const [added, setAdded] = useState(false);
   const wished = isWished(product.id);
-  const out = product.stock !== null && product.stock <= 0;
+  const soldOut = product.stock !== null && product.stock <= 0;
+  const preorder = soldOut && product.preorder;
+  const out = soldOut && !product.preorder;
   const { categories } = useSite();
   const tint = categories.find((c) => c.id === product.categoryId)?.tint;
   const needsChoice = product.personalizable || (product.sizes?.length ?? 0) > 0;
@@ -49,9 +51,10 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
         {product.handmade && <HangTag className="absolute -top-1 end-5 h-[4.5rem] w-12 transition-transform duration-500 group-hover:translate-y-1" />}
 
-        {product.badge && (
+        {product.badge && !preorder && (
           <span className={`absolute start-4 top-4 rounded-full px-3 py-1 text-xs font-semibold ${badgeTone[product.badge]}`}>{product.badge}</span>
         )}
+        {preorder && <span className="absolute start-4 top-4 rounded-full bg-rose px-3 py-1 text-xs font-semibold text-white">طلب مسبق</span>}
         {out && <span className="absolute inset-x-4 bottom-4 rounded-full bg-cream/90 py-2 text-center text-sm font-semibold backdrop-blur">نفدت الكمية — بنرجّعها قريباً</span>}
 
         <button
@@ -82,7 +85,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span key={String(added)} initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} className="flex items-center gap-1.5">
-                  {added ? "انضافت 🤍" : (<><Plus className="size-4" /> للسلة</>)}
+                  {added ? "انضافت 🤍" : preorder ? "اطلبي مسبقاً" : (<><Plus className="size-4" /> للسلة</>)}
                 </motion.span>
               </AnimatePresence>
             </button>

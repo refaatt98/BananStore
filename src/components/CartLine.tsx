@@ -52,6 +52,7 @@ export function CartLine({ item, onNavigate }: { item: CartItem; onNavigate?: ()
           {item.size && <span>· {item.size}</span>}
         </p>
         {item.note && <p className="mt-1 truncate text-xs text-cocoa-2">✎ {item.note}</p>}
+        {item.preorder && <p className="mt-1 text-xs font-semibold text-rose">طلب مسبق</p>}
         <div className="mt-auto flex items-center justify-between pt-2">
           <QtyStepper value={item.qty} onChange={(v) => setQty(item.key, v)} />
           <span className="font-semibold tabular-nums">{formatPrice(item.price * item.qty)}</span>

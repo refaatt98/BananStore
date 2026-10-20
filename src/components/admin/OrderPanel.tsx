@@ -66,6 +66,7 @@ function ItemRow({ item, orderId, onChanged }: { item: OrderItem; orderId: strin
           <b className="shrink-0 tabular-nums">{formatPrice(item.price * item.qty)}</b>
         </div>
         {(item.color?.name || item.size) && <p className="text-xs text-cocoa-3">{[item.color?.name, item.size].filter(Boolean).join(" · ")}</p>}
+        {item.preorder && <span className="mt-1 inline-block rounded-full bg-rose px-2 py-0.5 text-xs font-semibold text-white">طلب مسبق</span>}
         {item.note && <p className="mt-1 rounded-lg bg-gold-soft px-2 py-1 text-xs">✍️ التخصيص: <b>{item.note}</b></p>}
         {editing ? (
           <div className="mt-2 flex flex-wrap items-center gap-2">

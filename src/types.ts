@@ -73,6 +73,7 @@ export interface Product {
   sizes: string[];
   personalizable: boolean;
   handmade: boolean; // يظهر عليه بطاقة "صُنع باليد"
+  preorder: boolean; // لما تخلص الكمية بيضل ينطلب كطلب مسبق
   stock: number | null; // null = بدون حد
   badge: Badge | null;
   featured: boolean;
@@ -167,6 +168,7 @@ export interface CartItem {
   size?: string;
   note?: string;
   qty: number;
+  preorder?: boolean; // للعرض بس — السيرفر هو اللي بيقرر
 }
 
 export interface ProductFilter {
@@ -214,6 +216,7 @@ export interface OrderItem {
   note: string | null;
   image: string | null;
   art: ArtKind | null;
+  preorder?: boolean;
 }
 
 export interface Order {

@@ -105,6 +105,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
           size: opts.size,
           note,
           qty,
+          preorder: product.preorder && product.stock !== null && product.stock <= 0,
         },
       ];
     });
