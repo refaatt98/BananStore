@@ -1,6 +1,5 @@
 
 import { motion } from "motion/react";
-import { Mail } from "lucide-react";
 import { Link } from "react-router";
 import { useSite } from "../lib/site";
 import { Diamond, Spool } from "./Craft";
@@ -73,14 +72,6 @@ export function Footer() {
               aria-label="واتساب"
             >
               <WhatsappIcon className="size-5" />
-            </a>
-
-            <a
-              href={`mailto:${site.email}`}
-              className="grid size-11 place-items-center rounded-full border border-dashed border-cream/30 transition hover:bg-cream hover:text-cocoa"
-              aria-label="البريد"
-            >
-              <Mail className="size-5" strokeWidth={1.7} />
             </a>
           </div>
         </div>

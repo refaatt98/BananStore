@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Mail, MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { Link } from "react-router";
 import { useSite } from "../lib/site";
 import { Diamond, Spool } from "../components/Craft";
@@ -93,26 +93,6 @@ export default function Contact() {
                   </span>
 
                   <Send className="ms-auto size-5 text-rose-soft" />
-                </a>
-
-                <a
-                  href={`mailto:${site.email}`}
-                  className="flex items-center gap-4 rounded-2xl border border-cream/20 p-4 transition hover:bg-cream/10"
-                >
-                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-cream/10">
-                    <Mail className="size-6" />
-                  </span>
-
-                  <span className="min-w-0">
-                    <span className="block font-semibold">
-                      البريد الإلكتروني
-                    </span>
-                    <span className="mt-1 block break-all text-sm text-cream/65">
-                      {site.email}
-                    </span>
-                  </span>
-
-                  <Send className="ms-auto size-5 shrink-0 text-rose-soft" />
                 </a>
               </div>
             </div>
