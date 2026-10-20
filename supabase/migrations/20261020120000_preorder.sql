@@ -97,3 +97,40 @@ begin
 
   return public.get_order(v_order.id);
 end $function$;
+
+CREATE OR REPLACE FUNCTION public.on_order_status_change()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+begin
+  if tg_op = 'INSERT' or new.status is distinct from old.status then
+    insert into public.order_events (order_id, status) values (new.id, new.status);
+  end if;
+  -- قطع الطلب المسبق ما نقصت من المخزون، فما بترجع إله
+  if tg_op = 'UPDATE' and new.status = 'cancelled' and old.status <> 'cancelled' then
+    update public.products p set stock = p.stock + i.qty from public.order_items i
+      where i.order_id = new.id and i.product_id = p.id and p.stock is not null and not i.preorder;
+  elsif tg_op = 'UPDATE' and old.status = 'cancelled' and new.status <> 'cancelled' then
+    update public.products p set stock = greatest(p.stock - i.qty, 0) from public.order_items i
+      where i.order_id = new.id and i.product_id = p.id and p.stock is not null and not i.preorder;
+  end if;
+  return new;
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.get_order(p_id uuid)
+ RETURNS jsonb
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+  select jsonb_build_object(
+    'id', o.id, 'number', o.number, 'status', o.status, 'name', o.customer_name, 'phone', o.phone,
+    'zone_name', o.zone_name, 'is_pickup', o.is_pickup, 'city', o.city, 'address', o.address, 'notes', o.notes,
+    'gift_wrap', o.gift_wrap, 'gift_message', o.gift_message,
+    'subtotal', o.subtotal, 'delivery_fee', o.delivery_fee, 'gift_wrap_fee', o.gift_wrap_fee,
+    'discount', o.discount, 'promo_code', o.promo_code, 'total', o.total, 'created_at', o.created_at,
+    'items', coalesce((select jsonb_agg(jsonb_build_object('name', i.name, 'price', i.price, 'qty', i.qty, 'color', i.color, 'size', i.size, 'note', i.note, 'image', i.image, 'art', i.art, 'preorder', i.preorder)) from public.order_items i where i.order_id = o.id), '[]'::jsonb)
+  ) from public.orders o where o.id = p_id;
+$function$;
