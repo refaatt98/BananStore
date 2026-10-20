@@ -40,7 +40,7 @@ function Floater({
   );
 }
 
-/** فيديو تطريز اسم بَنان — صامت وبيعيد حاله */
+/** تطريز اسم بَنان — بيتحرّك وبيعيد حاله */
 function HeroVideo() {
   return (
     <motion.div
@@ -49,26 +49,17 @@ function HeroVideo() {
       transition={{ duration: 0.9, ease }}
       className="relative overflow-hidden rounded-[2rem] border-[8px] border-linen bg-linen shadow-[0_30px_60px_-30px_rgba(74,42,24,.5)]"
     >
-      <video
-        // iOS بيشغّل الفيديو تلقائياً بس إذا كان صامت، وReact ما بيحط muted دايماً
-        ref={(v) => {
-          if (!v) return;
-          v.muted = true;
-          v.play().catch(() => {});
-        }}
-        poster="/media/hero-banan.jpg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        disablePictureInPicture
-        aria-label="تطريز اسم بَنان بالخيط"
+      {/* صورة متحركة بدل فيديو: الآيفون بوضع توفير الطاقة بيوقف أي فيديو، بس الصور المتحركة بتضل شغّالة */}
+      <img
+        src="/media/hero-banan.webp"
+        alt="تطريز اسم بَنان بالخيط"
+        width={720}
+        height={406}
+        fetchPriority="high"
+        decoding="async"
+        draggable={false}
         className="block aspect-[16/9] w-full rounded-[1.5rem] object-cover"
-      >
-        <source src="/media/hero-banan.mp4" type="video/mp4" />
-        <source src="/media/hero-banan.webm" type="video/webm" />
-      </video>
+      />
     </motion.div>
   );
 }
