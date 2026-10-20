@@ -40,128 +40,36 @@ function Floater({
   );
 }
 
-/** إطار تطريز بيطرّز حاله: ورد، أوراق، واسم بَنان */
-function EmbroideryHoop() {
-  const draw = (d: number, dur = 1.4) => ({
-    initial: { pathLength: 0, opacity: 0 },
-    animate: { pathLength: 1, opacity: 1 },
-    transition: { pathLength: { delay: d, duration: dur, ease: "easeInOut" as const }, opacity: { delay: d, duration: 0.01 } },
-  });
-
-  const petals = (cx: number, cy: number, r: number) =>
-    [0, 72, 144, 216, 288]
-      .map((a) => {
-        const rad = ((a - 90) * Math.PI) / 180;
-        const px = cx + Math.cos(rad) * r;
-        const py = cy + Math.sin(rad) * r;
-        return `M${cx} ${cy} Q${px + Math.cos(rad + 1.2) * r * 0.6} ${py + Math.sin(rad + 1.2) * r * 0.6} ${px} ${py} Q${px + Math.cos(rad - 1.2) * r * 0.6} ${py + Math.sin(rad - 1.2) * r * 0.6} ${cx} ${cy}`;
-      })
-      .join(" ");
-
+/** فيديو تطريز اسم بَنان — صامت وبيعيد حاله */
+function HeroVideo() {
   return (
-    <svg viewBox="0 0 400 440" className="h-auto w-full" role="img" aria-label="إطار تطريز مكتوب عليه بَنان">
-      <defs>
-        <radialGradient id="fabric" cx="50%" cy="45%" r="60%">
-          <stop offset="0%" stopColor="#fffdfa" />
-          <stop offset="100%" stopColor="#f1e6d8" />
-        </radialGradient>
-        <pattern id="weave" width="6" height="6" patternUnits="userSpaceOnUse">
-          <path d="M0 3 H6 M3 0 V6" stroke="#e8dccd" strokeWidth=".6" />
-        </pattern>
-      </defs>
-
-      {/* المسمار والحلقة الخشبية */}
-      <motion.g initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, ease }}>
-        <rect x="186" y="18" width="28" height="34" rx="6" fill="#b88356" stroke="#4a2a18" strokeWidth="2" />
-        <circle cx="200" cy="35" r="5" fill="#c5a46d" stroke="#4a2a18" strokeWidth="1.5" />
-      </motion.g>
-      <motion.g initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, ease }} style={{ transformOrigin: "200px 240px" }}>
-        <circle cx="200" cy="240" r="178" fill="#c99b6d" />
-        <circle cx="200" cy="240" r="178" fill="none" stroke="#4a2a18" strokeWidth="2.5" />
-        <circle cx="200" cy="240" r="166" fill="#a87a50" />
-        <circle cx="200" cy="240" r="160" fill="url(#fabric)" />
-        <circle cx="200" cy="240" r="160" fill="url(#weave)" opacity=".7" />
-        <circle cx="200" cy="240" r="148" fill="none" stroke="#e2cfbb" strokeWidth="1.5" strokeDasharray="3 6" />
-      </motion.g>
-
-      {/* الإكليل */}
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <motion.path d="M92 300 C70 240 90 170 150 132" stroke="#7c8f6a" strokeWidth="3.5" {...draw(0.9, 1.6)} />
-        <motion.path d="M308 300 C330 240 310 170 250 132" stroke="#7c8f6a" strokeWidth="3.5" {...draw(0.9, 1.6)} />
-        {[
-          [84, 262, -40],
-          [86, 214, -60],
-          [106, 172, -80],
-          [134, 146, -100],
-          [316, 262, 40],
-          [314, 214, 60],
-          [294, 172, 80],
-          [266, 146, 100],
-        ].map(([x, y, r], i) => (
-          <motion.path
-            key={i}
-            d={`M${x} ${y} q-14 -10 -26 -4 q12 12 26 4 Z`}
-            transform={`rotate(${r} ${x} ${y})`}
-            fill="#93a386"
-            stroke="#5f7052"
-            strokeWidth="1.5"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 1.6 + i * 0.08, type: "spring", damping: 10 }}
-            style={{ transformOrigin: `${x}px ${y}px` }}
-          />
-        ))}
-        {/* ورود */}
-        {[
-          [200, 118, 20, "#c98f86", 2.2],
-          [120, 320, 16, "#e9c2bb", 2.5],
-          [280, 320, 16, "#e9c2bb", 2.6],
-          [96, 238, 11, "#c5a46d", 2.8],
-          [304, 238, 11, "#c5a46d", 2.9],
-        ].map(([x, y, r, c, d], i) => (
-          <g key={i}>
-            <motion.path d={petals(x as number, y as number, r as number)} stroke={c as string} strokeWidth="3.2" fill={`${c}55`} {...draw(d as number, 1)} />
-            <motion.circle cx={x as number} cy={y as number} r={(r as number) * 0.28} fill="#c5a46d" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: (d as number) + 0.8 }} style={{ transformOrigin: `${x}px ${y}px` }} />
-          </g>
-        ))}
-      </g>
-
-      {/* الاسم مطرّز */}
-      <motion.text
-        x="200"
-        y="262"
-        textAnchor="middle"
-        fontFamily="Aref Ruqaa, Amiri, serif"
-        fontSize="104"
-        fontWeight="700"
-        stroke="#4a2a18"
-        strokeWidth="1.6"
-        strokeDasharray="700"
-        initial={{ strokeDashoffset: 700, fill: "rgba(74,42,24,0)" }}
-        animate={{ strokeDashoffset: 0, fill: "rgba(74,42,24,1)" }}
-        transition={{ strokeDashoffset: { delay: 1.2, duration: 2.6, ease: "easeInOut" }, fill: { delay: 3.1, duration: 0.9 } }}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.9, ease }}
+      className="relative overflow-hidden rounded-[2rem] border-[8px] border-linen bg-linen shadow-[0_30px_60px_-30px_rgba(74,42,24,.5)]"
+    >
+      <video
+        // iOS بيشغّل الفيديو تلقائياً بس إذا كان صامت، وReact ما بيحط muted دايماً
+        ref={(v) => {
+          if (!v) return;
+          v.muted = true;
+          v.play().catch(() => {});
+        }}
+        poster="/media/hero-banan.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        aria-label="تطريز اسم بَنان بالخيط"
+        className="block aspect-[16/9] w-full rounded-[1.5rem] object-cover"
       >
-        بَنان
-      </motion.text>
-      <motion.path d="M140 292 Q200 306 260 292" fill="none" stroke="#c98f86" strokeWidth="2.5" strokeDasharray="5 5" {...draw(3.4, 1)} />
-      <motion.text
-        x="200"
-        y="330"
-        textAnchor="middle"
-        fontFamily="IBM Plex Sans Arabic, sans-serif"
-        fontSize="15"
-        letterSpacing="1"
-        fill="#9c8070"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.8 }}
-      >
-        صُنع باليد · بحب
-      </motion.text>
-
-      {/* الخيط والإبرة الخارجين من الإطار */}
-      <motion.path d="M330 330 C380 360 380 410 340 432" fill="none" stroke="#c98f86" strokeWidth="2" {...draw(3.6, 1.2)} />
-    </svg>
+        <source src="/media/hero-banan.mp4" type="video/mp4" />
+        <source src="/media/hero-banan.webm" type="video/webm" />
+      </video>
+    </motion.div>
   );
 }
 
@@ -277,7 +185,7 @@ export function Hero() {
 
         <div className="relative mx-auto w-full max-w-[22rem] sm:max-w-md lg:max-w-[30rem]">
           <motion.div style={{ x: hoopX, y: hoopY }}>
-            <EmbroideryHoop />
+            <HeroVideo />
           </motion.div>
 
           <Floater mx={sx} my={sy} depth={40} className="-start-4 top-[8%] sm:-start-10" delay={0}>
