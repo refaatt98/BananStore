@@ -1,3 +1,4 @@
+import { Heart, PackageCheck, Scissors, Sparkles } from "lucide-react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
 import { Link } from "react-router";
@@ -8,11 +9,11 @@ import { getStory } from "../lib/api";
 import { useAsync, useTitle } from "../lib/hooks";
 import { useSite } from "../lib/site";
 
-const numbers = [
-  { value: "+500", label: "قطعة وصلت لأصحابها" },
-  { value: "+40", label: "ساعة شغل بالأسبوع" },
-  { value: "100%", label: "صنع باليد" },
-  { value: "∞", label: "حب بكل غرزة" },
+const features = [
+  { icon: Heart, label: "شغف بالتفاصيل" },
+  { icon: Scissors, label: "خياطة بعناية" },
+  { icon: Sparkles, label: "اختيارات مميزة" },
+  { icon: PackageCheck, label: "تفاصيل تستحق الاقتناء" },
 ];
 
 export default function Story() {
@@ -83,13 +84,13 @@ export default function Story() {
         </div>
       </section>
 
-      {/* أرقام */}
+      {/* مميزاتنا */}
       <section className="container-b py-16 md:py-24">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {numbers.map((n, i) => (
-            <Reveal key={n.label} delay={i * 0.08} className="stitched rounded-[1.75rem] bg-linen p-6 text-center">
-              <p className="font-display text-4xl text-rose md:text-5xl">{n.value}</p>
-              <p className="mt-2 text-sm text-cocoa-2">{n.label}</p>
+        <div className="grid grid-cols-2 gap-3 rounded-[2rem] bg-cream-2 p-3 sm:gap-4 sm:p-4 md:grid-cols-4">
+          {features.map((f, i) => (
+            <Reveal key={f.label} delay={i * 0.08} className="flex flex-col items-center justify-center gap-2 rounded-[1.5rem] bg-white px-3 py-6 text-center">
+              <f.icon className="size-7 text-rose" strokeWidth={1.75} aria-hidden />
+              <p className="text-base font-semibold leading-snug text-cocoa sm:text-lg">{f.label}</p>
             </Reveal>
           ))}
         </div>
