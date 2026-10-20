@@ -23,6 +23,7 @@ const empty: Partial<Product> = {
   colors: [],
   sizes: [],
   personalizable: false,
+  handmade: false,
   stock: null,
   badge: null,
   featured: false,
@@ -160,6 +161,7 @@ export default function AdminProductEdit() {
           <Card className="space-y-4">
             <Toggle checked={!!p.active} onChange={(v) => set("active", v)} label={p.active ? "ظاهر بالمتجر" : "مخفي عن المتجر"} />
             <Toggle checked={!!p.featured} onChange={(v) => set("featured", v)} label="مختار للصفحة الرئيسية" />
+            <Toggle checked={!!p.handmade} onChange={(v) => set("handmade", v)} label="بطاقة «صُنع باليد» على الصورة" />
           </Card>
           <Card className="space-y-4">
             <div className="grid grid-cols-2 gap-3">

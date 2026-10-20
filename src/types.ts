@@ -72,6 +72,7 @@ export interface Product {
   colors: ColorOption[];
   sizes: string[];
   personalizable: boolean;
+  handmade: boolean; // يظهر عليه بطاقة "صُنع باليد"
   stock: number | null; // null = بدون حد
   badge: Badge | null;
   featured: boolean;

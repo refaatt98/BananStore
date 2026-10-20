@@ -90,6 +90,7 @@ export const mapProduct = (r: Row): Product => ({
   colors: Array.isArray(r.colors) ? r.colors.filter((c: Row) => c && c.name) : [],
   sizes: r.sizes ?? [],
   personalizable: r.personalizable,
+  handmade: !!r.handmade,
   stock: r.stock,
   badge: r.badge,
   featured: r.featured,
@@ -106,7 +107,7 @@ const productToRow = (p: Partial<Product>): Row => {
     ["slug", "slug"], ["name", "name"], ["categoryId", "category_id"], ["price", "price"], ["compareAtPrice", "compare_at_price"],
     ["shortDescription", "short_description"], ["description", "description"], ["materials", "materials"], ["care", "care"],
     ["makingTime", "making_time"], ["art", "art"], ["images", "images"], ["colors", "colors"], ["sizes", "sizes"],
-    ["personalizable", "personalizable"], ["stock", "stock"], ["badge", "badge"], ["featured", "featured"], ["active", "active"], ["sort", "sort"],
+    ["personalizable", "personalizable"], ["handmade", "handmade"], ["stock", "stock"], ["badge", "badge"], ["featured", "featured"], ["active", "active"], ["sort", "sort"],
   ];
   for (const [k, col] of map) if (p[k] !== undefined) r[col] = p[k];
   return r;
