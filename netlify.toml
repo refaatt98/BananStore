@@ -31,6 +31,17 @@
   to = "/story"
   status = 301
 
+# لوحة التحكم بصفحة HTML خاصة (manifest بيفتح على /admin)
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin.html"
+  status = 200
+
 # تطبيق صفحة واحدة — React Router
 [[redirects]]
   from = "/*"
