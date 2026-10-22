@@ -1,5 +1,8 @@
 // إشعارات الطلبات الجديدة (Web Push) — الطرف اللي بالمتصفح
 
+// دالة الإشعارات موجودة على Netlify بس، فمن أي دومين تاني (مثل souqly) منبعت لعنوان Netlify
+const API = location.hostname.endsWith(".netlify.app") || location.hostname === "localhost" ? "" : "https://bananstore.netlify.app";
+
 export type PushState = "unsupported" | "needs-install" | "denied" | "off" | "on";
 
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -36,7 +39,7 @@ export async function getPushState(): Promise<PushState> {
 }
 
 const post = (path: string, body: unknown) =>
-  fetch(`/api/push/${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  fetch(`${API}/api/push/${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
 /** لازم تنادى من كبسة زر (الآيفون بيطلب هيك) */
 export async function enablePush(): Promise<PushState> {
@@ -46,7 +49,7 @@ export async function enablePush(): Promise<PushState> {
   const reg = await navigator.serviceWorker.ready;
   let sub = await reg.pushManager.getSubscription();
   if (!sub) {
-    const { publicKey } = await (await fetch("/api/push/key")).json();
+    const { publicKey } = await (await fetch(`${API}/api/push/key`)).json();
     sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlB64ToUint8Array(publicKey) });
   }
   const r = await post("subscribe", { subscription: sub.toJSON() });
@@ -75,7 +78,7 @@ export async function testPush() {
 /** بعد ما الزبونة تطلب — بيبعت إشعار لصاحبة المتجر (ما بيوقف الطلب لو فشل) */
 export function notifyNewOrder(id: string) {
   try {
-    void fetch("/api/push/order", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id }), keepalive: true }).catch(() => {});
+    void fetch(`${API}/api/push/order`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id }), keepalive: true }).catch(() => {});
   } catch {
     /* تجاهل */
   }
