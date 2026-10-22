@@ -20,6 +20,7 @@ import {
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { adminCountNewOrders } from "../../lib/api";
+import { registerSW } from "../../lib/push";
 import { supabase } from "../../lib/supabase";
 import { StatusesProvider } from "./statuses";
 import { ToastProvider, useToast } from "./ui";
@@ -113,6 +114,17 @@ function ShellInner() {
   }, [refreshCount, location.pathname]);
 
   useEffect(() => setMenu(false), [location.pathname]);
+
+  // لما تنضاف اللوحة للشاشة الرئيسية بتفتح على /admin، وبنسجّل الـ service worker للإشعارات
+  useEffect(() => {
+    const link = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+    const prev = link?.getAttribute("href");
+    link?.setAttribute("href", "/admin.webmanifest");
+    void registerSW();
+    return () => {
+      if (link && prev) link.setAttribute("href", prev);
+    };
+  }, []);
 
   // تنبيه مباشر لما يوصل طلب جديد
   useEffect(() => {

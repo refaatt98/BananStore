@@ -10,6 +10,11 @@
   NODE_VERSION = "22"
   NPM_FLAGS = "--no-audit --no-fund"
 
+# دوال السيرفر (إشعارات الطلبات)
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["web-push"]
+
 # روابط مألوفة قد يكتبها الزوار
 [[redirects]]
   from = "/basket"
