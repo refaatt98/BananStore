@@ -8,6 +8,7 @@ import { calcDelivery, createOrder, getZones, validatePromo } from "../lib/api";
 import { formatPrice } from "../lib/format";
 import { useAsync, useTitle } from "../lib/hooks";
 import { useSite } from "../lib/site";
+import { notifyNewOrder } from "../lib/push";
 import { useShop } from "../lib/store";
 import type { PromoResult } from "../types";
 
@@ -97,6 +98,7 @@ export default function Checkout() {
     setServerError("");
     try {
       const order = await createOrder({ ...form, promoCode: promo?.valid ? promo.code ?? undefined : undefined, items });
+      notifyNewOrder(order.id);
       clear();
       navigate(`/order/${order.id}`, { replace: true });
     } catch (err) {

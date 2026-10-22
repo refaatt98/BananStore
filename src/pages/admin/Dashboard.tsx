@@ -6,6 +6,7 @@ import { adminCountSubscribers, adminListOrders, adminStats } from "../../lib/ap
 import { formatPrice } from "../../lib/format";
 import { useAsync, useTitle } from "../../lib/hooks";
 import { useStatuses } from "../../components/admin/statuses";
+import { PushCard } from "../../components/admin/PushCard";
 
 export default function AdminDashboard() {
   useTitle("لوحة التحكم");
@@ -52,6 +53,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <AdminPageHeader title="أهلاً فيكِ 🤍" text="هاي نظرة سريعة على المتجر" />
+      <PushCard />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {kpis.map((k) => (
