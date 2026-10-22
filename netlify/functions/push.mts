@@ -20,8 +20,11 @@ type Vapid = { publicKey: string; privateKey: string };
 
 const store = () => getStore({ name: "push", consistency: "strong" });
 
+// الموقع بيشتغل كمان على دومين تاني، فلازم نسمح بالطلبات من برّا
+const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "content-type" };
+
 const json = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+  new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", ...CORS } });
 
 async function hash(s: string) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -81,6 +84,7 @@ async function getOrder(id: string) {
 
 export default async (req: Request) => {
   const action = new URL(req.url).pathname.split("/").pop();
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
 
   if (req.method === "GET" && action === "key") {
     return json({ publicKey: (await vapid()).publicKey });
